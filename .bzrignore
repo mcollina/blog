@@ -1,0 +1,8 @@
+*.log
+nbproject
+tmp/cache/*.*
+tmp/pids/*.*
+tmp/sockets/*.*
+db/*.sql
+tmp/sessions/*
+db/*.db
