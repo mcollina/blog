@@ -1,0 +1,26 @@
+<h1>Listing articles</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Updated at</th>
+    <th>Created at</th>
+  </tr>
+
+<% for article in @articles %>
+  <tr>
+    <td><%=h article.title %></td>
+    <td><%=h article.content %></td>
+    <td><%=h article.updated_at %></td>
+    <td><%=h article.created_at %></td>
+    <td><%= link_to 'Show', article %></td>
+    <td><%= link_to 'Edit', edit_article_path(article) %></td>
+    <td><%= link_to 'Destroy', article, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New article', new_article_path %>

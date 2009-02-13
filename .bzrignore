@@ -6,3 +6,4 @@ tmp/sockets/*.*
 db/*.sql
 tmp/sessions/*
 db/*.db
+db/development.sqlite3
