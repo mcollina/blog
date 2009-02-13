@@ -7,3 +7,4 @@ db/*.sql
 tmp/sessions/*
 db/*.db
 db/development.sqlite3
+db/test.sqlite3
