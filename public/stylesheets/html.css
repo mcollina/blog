@@ -249,3 +249,32 @@ a:hover img {
   border: 2px solid #FFF !important;
   border: 2px solid #470052;
 }
+
+
+
+
+/**************************************************************
+   Rails stuff
+ **************************************************************/
+
+#errorExplanation {
+  margin: 10px 15px;
+  padding-left: 5px;
+  
+  border: 2px solid #470052;
+  
+  background-repeat: no-repeat;
+  background-position: 5px 50%;  
+}
+
+.fieldWithErrors {
+
+  margin-left: 15px;
+}
+
+.fieldWithErrors input, 
+.fieldWithErrors textarea,
+.fieldWithErrors select {
+  border: 3px solid #470052;
+  display: table;
+}
