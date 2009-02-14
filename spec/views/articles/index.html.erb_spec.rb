@@ -18,8 +18,8 @@ describe "/articles/index.html.erb" do
 
   it "should render list of articles" do
     render "/articles/index.html.erb"
-    response.should have_tag("tr>td", "value for title".to_s, 2)
-    response.should have_tag("tr>td", "value for content".to_s, 2)
+    response.should have_tag("div>h1", "value for title".to_s, 2)
+    response.should have_tag("div>p", "value for content".to_s, 2)
   end
 end
 
