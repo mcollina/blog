@@ -1,0 +1,2 @@
+
+require 'navigations/repository'
