@@ -69,4 +69,9 @@ describe Navigator do
       @instance.page
     }.should raise_error(ArgumentError)
   end
+
+  it "can be anonymous" do
+    @instance = Navigator.new
+    @instance.name.should == :anonymous
+  end
 end
