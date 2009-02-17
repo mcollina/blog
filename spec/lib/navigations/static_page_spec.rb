@@ -7,9 +7,9 @@ include Navigations
 class DummyController < ApplicationController
 end
 
-describe Page do
+describe StaticPage do
   before(:each) do
-    @instance = Page.new
+    @instance = StaticPage.new
   end
 
   it "should have a controller accessor" do

@@ -1,5 +1,5 @@
 module Navigations
-  class Page
+  class StaticPage
 
     attr_reader :name
 

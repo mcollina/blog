@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/page"
+require File.dirname(__FILE__) + "/static_page"
 
 module Navigations
   class Navigator
@@ -10,11 +10,23 @@ module Navigations
       @pages = []
       @name = name.to_sym
     end
-  
-    def add_page(name, controller)
-      page = Page.new
-      page.name = name
-      page.controller = controller
+
+    # page(name, controller) => self
+    # page(&block) yields StaticPage.new => self
+    def page(*args,&block)
+      if args.size != 2 and block.nil?
+        raise ArgumentError.new("You should pass a name and a controller or a block to Navigator#page.")
+      end
+
+      name = args.shift
+      controller = args.shift
+
+      page = StaticPage.new
+      page.name = name unless name.nil?
+      page.controller = controller unless controller.nil?
+
+      block.call(page) if block
+      
       @pages << page
       self
     end
