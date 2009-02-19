@@ -74,4 +74,38 @@ describe Navigator do
     @instance = Navigator.new
     @instance.name.should == :anonymous
   end
+
+  it { @instance.should respond_to(:page_factory) }
+
+  it "should check if a factory respond to :expand when adding factories" do
+    factory = mock "factory"
+    factory.should_receive(:respond_to?).with(:expand).and_return(true)
+
+    lambda {
+      @instance.page_factory(factory)
+    }.should_not raise_error
+
+    other = mock "other"
+    lambda {
+      @instance.page_factory(other)
+    }.should raise_error(ArgumentError)
+  end
+
+  it "should have a pages method that handles correctly factories" do
+    factory = mock "factory"
+    factory.should_receive(:respond_to?).with(:expand).twice.and_return(true)
+
+    page1 = mock "Page1"
+    page2 = mock "Page2"
+    factory.should_receive(:expand).and_return([page1,page2])
+
+    @instance.page("First", DummyController)
+    @instance.page_factory(factory)
+    @instance.page("Second", DummyController)
+
+    pages = @instance.pages
+    pages.size.should == 4
+    pages[1].should == page1
+    pages[2].should == page2
+  end
 end
