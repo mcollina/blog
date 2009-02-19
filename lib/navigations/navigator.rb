@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + "/static_page"
+require File.dirname(__FILE__) + "/dynamic_page_factory"
 
 module Navigations
   class Navigator
