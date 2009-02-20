@@ -12,19 +12,12 @@ module Navigations
       @contains_factory = false
     end
 
-    # page(name, controller) => self
-    # page(&block) yields StaticPage.new => self
-    def page(*args,&block)
-      if args.size != 2 and block.nil?
-        raise ArgumentError.new("You should pass a name and a controller or a block to Navigator#page.")
+    def page(page=nil,&block)
+      if page.nil? and block.nil?
+        raise ArgumentError.new("You should pass a page or a block to Navigator#page.")
       end
-
-      name = args.shift
-      controller = args.shift
-
-      page = StaticPage.new
-      page.name = name unless name.nil?
-      page.controller = controller unless controller.nil?
+      
+      page ||= StaticPage.new
 
       block.call(page) if block
       

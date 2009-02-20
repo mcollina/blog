@@ -8,6 +8,21 @@ class DummyController < ApplicationController
 end
 
 describe Navigator do
+
+  def mock_page(name)
+    page = mock "Page #{name}"
+    page.should_receive(:name).any_number_of_times.and_return(name)
+    page.should_receive(:controller).any_number_of_times.and_return(DummyController)
+
+    {
+      :current? => true,
+      :name => true,
+      :expand => false
+    }.each do |method, result|
+      page.should_receive(:respond_to?).any_number_of_times.with(method).and_return(result)
+    end
+  end
+
   before(:each) do
     @instance = Navigator.new(:a_navigator)
   end
@@ -21,20 +36,19 @@ describe Navigator do
     @instance.should respond_to(:pages)
     @instance.pages.should == []
   end
+
+  it { @instance.should respond_to(:page) }
   
-  it "should have a page method" do
-    @instance.should respond_to(:page)
-    @instance.page("First", DummyController)
-    @instance.pages.size.should == 1
-    
-    page = @instance.pages.first
-    page.name.should == "First"
-    page.controller.should == DummyController
+  it "should have a page method that accept a page" do
+    page = mock_page("First")
+
+    @instance.page(page)
+    @instance.pages.should == [page]
   end
 
   it "should have a page method that accept a block" do
-    @instance.should respond_to(:page)
     @instance.page do |p|
+      p.should be_kind_of(StaticPage)
       p.name = "First"
       p.controller = DummyController
     end
@@ -43,28 +57,24 @@ describe Navigator do
     page = @instance.pages.first
     page.name.should == "First"
     page.controller.should == DummyController
-
-    @instance.page("Second", DummyController) do |p|
-      p.name.should == "Second"
-      p.controller.should == DummyController
-    end
-
-    @instance.pages.size.should == 2
   end
 
   it "should have a page method that add multiple pages" do
-    @instance.page("First", DummyController)
+    @instance.page do |p|
+      p.name = "First"
+      p.controller = DummyController
+    end
     @instance.pages.size.should == 1
 
-    @instance.page("Second", DummyController) do |p|
-      p.name.should == "Second"
-      p.controller.should == DummyController
+    @instance.page do |p|
+      p.name = "Second"
+      p.controller = DummyController
     end
 
     @instance.pages.size.should == 2
   end
 
-  it "should have a page method that raise an exception if no block and no args are given" do
+  it "should have a page method that raise an exception if no block and no page are given" do
     lambda {
       @instance.page
     }.should raise_error(ArgumentError)
@@ -99,9 +109,9 @@ describe Navigator do
     page2 = mock "Page2"
     factory.should_receive(:expand).and_return([page1,page2])
 
-    @instance.page("First", DummyController)
+    @instance.page(mock_page("First"))
     @instance.page_factory(factory)
-    @instance.page("Second", DummyController)
+    @instance.page(mock_page("Second"))
 
     pages = @instance.pages
     pages.size.should == 4
