@@ -87,7 +87,7 @@ describe Navigator do
 
   it { @instance.should respond_to(:page_factory) }
 
-  it "should check if a factory respond to :expand when adding factories" do
+  it "should check if a factory respond to :expand when adding page factories" do
     factory = mock "factory"
     factory.should_receive(:respond_to?).with(:expand).and_return(true)
 
@@ -98,6 +98,23 @@ describe Navigator do
     other = mock "other"
     lambda {
       @instance.page_factory(other)
+    }.should raise_error(ArgumentError)
+  end
+
+  it "should add a page factory by passing a block" do
+    page1 = mock "Page1"
+    page2 = mock "Page2"
+
+    lambda {
+      @instance.page_factory { [page1, page2] }
+    }.should_not raise_error
+
+    @instance.pages.should == [page1,page2]
+  end
+
+  it "should have a page_factory method that raise an exception if no block and no factory are given" do
+    lambda {
+      @instance.page_factory
     }.should raise_error(ArgumentError)
   end
 

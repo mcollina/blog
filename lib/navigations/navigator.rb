@@ -25,9 +25,13 @@ module Navigations
       self
     end
 
-    def page_factory(factory)
-      unless factory.respond_to?(:expand)
-        raise ArgumentError.new("The factory should have an expand method")
+    def page_factory(factory=nil,&block)
+      if factory.nil? and block.nil?
+        raise ArgumentError.new("You should pass a page_factory or a block to Navigator#page_factory.")
+      elsif factory.nil? and not block.nil?
+        factory = DynamicPageFactory.new(&block)
+      elsif not factory.respond_to?(:expand)
+        raise ArgumentError.new("The factory should have an expand method.")
       end
 
       @pages << factory
