@@ -20,7 +20,6 @@ describe StaticPage do
     @instance.controller = "DummyController" # the class name
     @instance.controller.should == DummyController
 
-
     @instance.controller = "Hello World"
     lambda {
       @instance.controller
@@ -48,6 +47,46 @@ describe StaticPage do
     @instance.should be_current(DummyController)
     @instance.should be_current(DummyController.new)
     @instance.should_not be_current(ApplicationController.new)
+  end
+
+  it "should have a link accessor" do
+    @instance.should respond_to(:link)
+    @instance.should respond_to(:link=)
+
+    @instance.link = "hello world"
+    @instance.link.should == "hello world"
+  end
+
+  it "should have a link_to_eval accessor" do
+    @instance.should respond_to(:link_to_eval)
+    @instance.should respond_to(:link_to_eval=)
+
+    @instance.link_to_eval = "hello world"
+    @instance.link_to_eval.should == "hello world"
+  end
+
+  it "should eval the 'link_to_eval' when calling :link with a binding" do
+    @instance.link_to_eval = "var"
+
+    lambda {
+      var = "hello word"
+      @instance.link(binding).should == var
+    }.should_not raise_error
+  end
+  
+  it "should eval the 'link_to_eval' when calling :link with an object" do
+    class MyClass
+      attr_accessor :var
+    end
+
+    @instance.link_to_eval = "var"
+    
+    obj = MyClass.new
+    obj.var = "hello world"
+
+    lambda {      
+      @instance.link(obj).should == obj.var
+    }.should_not raise_error
   end
 end
 

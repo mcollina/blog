@@ -1,7 +1,9 @@
 module Navigations
   class StaticPage
 
+    attr_accessor :link_to_eval
     attr_reader :name
+    attr_writer :link
 
     def name=(name)
       unless name.respond_to?(:to_str)
@@ -35,6 +37,17 @@ module Navigations
         true
       else
         false
+      end
+    end
+
+    def link(binding=nil)
+      if not @link.nil?
+        @link
+      elsif not link_to_eval.nil?
+        binding = binding.send(:binding) unless binding.kind_of?(Binding)
+        eval(link_to_eval, binding)
+      else
+        nil
       end
     end
 
