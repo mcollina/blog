@@ -13,14 +13,7 @@ describe Navigator do
     page = mock "Page #{name}"
     page.should_receive(:name).any_number_of_times.and_return(name)
     page.should_receive(:controller).any_number_of_times.and_return(DummyController)
-
-    {
-      :current? => true,
-      :name => true,
-      :expand => false
-    }.each do |method, result|
-      page.should_receive(:respond_to?).any_number_of_times.with(method).and_return(result)
-    end
+    page.should_receive(:respond_to?).any_number_of_times.with(:expand).and_return(false)
   end
 
   before(:each) do
