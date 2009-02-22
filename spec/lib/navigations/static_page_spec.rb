@@ -88,5 +88,30 @@ describe StaticPage do
       @instance.link(obj).should == obj.var
     }.should_not raise_error
   end
+
+  it "should have a translatable_name accessor" do
+    @instance.should respond_to(:translatable_name)
+    @instance.should respond_to(:translatable_name=)
+
+    @instance.translatable_name = "hello world"
+    @instance.translatable_name.should == "hello world"
+  end
+
+  it "should call correctly I18n.t when handling translatable names" do
+    I18n.should_receive(:t).with(:"hello").and_return("hello world")
+    @instance.translatable_name = :"hello"
+    @instance.name.should == "hello world"
+  end
+
+  it "should alias :t_name with :translatable_name" do
+    @instance.should respond_to(:t_name)
+    @instance.should respond_to(:t_name=)
+
+    @instance.t_name = "hello world"
+    @instance.translatable_name.should == "hello world"
+
+    @instance.translatable_name = "booh"
+    @instance.t_name.should == "booh"
+  end
 end
 

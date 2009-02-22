@@ -2,7 +2,11 @@ module Navigations
   class StaticPage
 
     attr_accessor :link_to_eval
-    attr_reader :name
+    
+    attr_accessor :translatable_name
+    alias :t_name :translatable_name
+    alias :t_name= :translatable_name=
+
     attr_writer :link
 
     def name=(name)
@@ -10,6 +14,14 @@ module Navigations
         raise ArgumentError.new("The page name should be a string")
       end
       @name = name
+    end
+
+    def name
+      if not @name.nil?
+        return @name
+      elsif not @translatable_name.nil?
+        return I18n.t @translatable_name
+      end
     end
 
     def controller
