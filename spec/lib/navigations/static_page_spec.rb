@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/shared_page_spec'
 require 'navigations'
 
 include Navigations
@@ -8,6 +9,7 @@ class DummyController < ApplicationController
 end
 
 describe StaticPage do
+
   before(:each) do
     @instance = StaticPage.new
   end
@@ -27,7 +29,6 @@ describe StaticPage do
   end
 
   it "should have a name accessor" do
-    @instance.should respond_to(:name)
     @instance.should respond_to(:name=)
 
     @instance.name.should be_nil
@@ -40,8 +41,6 @@ describe StaticPage do
   end
 
   it "should have an current? method" do
-    @instance.should respond_to(:current?)
-
     @instance.controller = "DummyController"
 
     @instance.should be_current(DummyController)
@@ -50,7 +49,6 @@ describe StaticPage do
   end
 
   it "should have a link accessor" do
-    @instance.should respond_to(:link)
     @instance.should respond_to(:link=)
 
     @instance.link = "hello world"
@@ -115,3 +113,13 @@ describe StaticPage do
   end
 end
 
+describe StaticPage, " (initalized)" do
+
+  it_should_behave_like "a navigable page"
+
+  before(:each) do
+    @instance = StaticPage.new
+    @instance.name = "Hello World"
+    @instance.link = "a link"
+  end
+end
