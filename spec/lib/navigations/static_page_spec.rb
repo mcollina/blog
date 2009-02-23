@@ -52,7 +52,7 @@ describe StaticPage do
     @instance.should respond_to(:link=)
 
     @instance.link = "hello world"
-    @instance.link.should == "hello world"
+    @instance.link(mock "Obj").should == "hello world"
   end
 
   it "should have a link_to_eval accessor" do
@@ -111,6 +111,24 @@ describe StaticPage do
     @instance.translatable_name = "booh"
     @instance.t_name.should == "booh"
   end
+
+  it { @instance.should respond_to(:visible_block) }
+
+  it "should allow to specify a block that will be called to check " +
+    "if this page is visible" do
+    
+    obj = mock "Object"
+
+    dummy = mock "Dummy"
+    dummy.should_receive(:visible?).with(obj).twice.and_return(true,false)
+
+    @instance.visible_block do |o|
+      dummy.visible? o
+    end
+    
+    @instance.should be_visible(obj)
+    @instance.should_not be_visible(obj)
+  end
 end
 
 describe StaticPage, " (initalized)" do
@@ -121,5 +139,6 @@ describe StaticPage, " (initalized)" do
     @instance = StaticPage.new
     @instance.name = "Hello World"
     @instance.link = "a link"
+    @instance.controller = DummyController
   end
 end

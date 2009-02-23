@@ -52,7 +52,7 @@ module Navigations
       end
     end
 
-    def link(binding=nil)
+    def link(binding)
       if not @link.nil?
         @link
       elsif not link_to_eval.nil?
@@ -61,6 +61,18 @@ module Navigations
       else
         nil
       end
+    end
+
+    def visible?(controller)
+      unless @visible_block.nil?
+        @visible_block.call controller
+      else
+        true
+      end
+    end
+
+    def visible_block(&block)
+      @visible_block = block
     end
 
     private
