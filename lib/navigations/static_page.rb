@@ -42,22 +42,21 @@ module Navigations
       @controller = controller
     end
 
-    def current?(current_controller)
-      current_controller = current_controller.class unless current_controller.kind_of? Class
+    def current?(controller)
+      controller = controller.class unless controller.kind_of? Class
 
-      if current_controller == controller
+      if controller == @controller
         true
       else
         false
       end
     end
 
-    def link(binding)
+    def link(controller)
       if not @link.nil?
         @link
-      elsif not link_to_eval.nil?
-        binding = binding.send(:binding) unless binding.kind_of?(Binding)
-        eval(link_to_eval, binding)
+      elsif not link_to_eval.nil? and not controller.nil?
+        eval(link_to_eval, controller.send(:binding))
       else
         nil
       end

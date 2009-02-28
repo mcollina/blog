@@ -62,15 +62,6 @@ describe StaticPage do
     @instance.link_to_eval = "hello world"
     @instance.link_to_eval.should == "hello world"
   end
-
-  it "should eval the 'link_to_eval' when calling :link with a binding" do
-    @instance.link_to_eval = "var"
-
-    lambda {
-      var = "hello word"
-      @instance.link(binding).should == var
-    }.should_not raise_error
-  end
   
   it "should eval the 'link_to_eval' when calling :link with an object" do
     class MyClass
