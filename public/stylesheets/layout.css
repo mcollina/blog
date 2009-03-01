@@ -9,7 +9,19 @@
             the menus
  **************************************************************/
 
+body {
+  height: 100%;
 
+  margin: 0;
+  padding: 0;
+  text-align: center;
+
+  font: 400 0.8em verdana, arial, sans-serif;
+  line-height: 170%;
+
+  background: #FFF url(../images/bg/header.png) repeat-x top left;
+  color: #000;
+}
 
 /**************************************************************
    #content: Sets the width of the site.  Make changes here
