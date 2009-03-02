@@ -1,10 +1,6 @@
 class ArticlesController < ApplicationController
   
-  uses_tiny_mce(:options => {  
-      :theme => 'advanced',    
-      :plugins => %w{ contextmenu paste}  
-    },  
-    :only => [:new, :edit])
+  uses_tiny_mce :only => [:new, :edit]
 
   # GET /articles
   # GET /articles.xml

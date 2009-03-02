@@ -264,3 +264,18 @@ a:hover img {
   border: 3px solid #470052;
   display: table;
 }
+
+/**************************************************************
+   TinyMCE stuff
+ **************************************************************/
+
+body.myTinyMceBody {
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  font: 400 0.8em verdana, arial, sans-serif;
+  line-height: 170%;
+
+}

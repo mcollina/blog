@@ -5,10 +5,8 @@
   <p>
     <b>Created at <%=h article.created_at %> by user</b>
   </p>
-
-  <p>
-    <%= article.content %>
-  </p>
+  
+  <%= article.content %>
 
   <%
   if article.created_at != article.updated_at
@@ -19,7 +17,7 @@
     </p>
   <%
   end
-  %>
+%>
 
   <p>
     <%= link_to 'Edit', edit_article_path(article) %> |
