@@ -38,4 +38,11 @@ describe Article do
     article = Article.new(:title => "hello world")
     article.save.should be_false
   end
+
+  it "should have a unique title" do
+    Article.create!(@valid_attributes)
+    lambda {
+      Article.create!(@valid_attributes)
+    }.should raise_error(ActiveRecord::RecordInvalid)
+  end
 end
