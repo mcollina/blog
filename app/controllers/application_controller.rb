@@ -7,4 +7,11 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+
+  after_filter :destroy_thread_locals
+
+  private
+  def destroy_thread_locals
+    ThreadLocals.destroy
+  end
 end
