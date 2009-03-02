@@ -7,11 +7,11 @@ describe "/articles/index.html.erb" do
     assigns[:articles] = [
       stub_model(Article,
         :title => "value for title",
-        :content => "value for content"
+        :content => "<p>value for content</p>"
       ),
       stub_model(Article,
         :title => "value for title",
-        :content => "value for content"
+        :content => "<p>value for content</p>"
       )
     ]
   end

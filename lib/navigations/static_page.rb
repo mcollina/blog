@@ -42,14 +42,9 @@ module Navigations
       @controller = controller
     end
 
-    def current?(controller)
-      controller = controller.class unless controller.kind_of? Class
-
-      if controller == @controller
-        true
-      else
-        false
-      end
+    def current?(current_controller)
+      current_controller = current_controller.class unless current_controller.kind_of? Class
+      return current_controller.name == controller.name #this work even in development mode
     end
 
     def link(controller)

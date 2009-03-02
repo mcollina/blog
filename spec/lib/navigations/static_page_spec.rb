@@ -46,6 +46,12 @@ describe StaticPage do
     @instance.should be_current(DummyController)
     @instance.should be_current(DummyController.new)
     @instance.should_not be_current(ApplicationController.new)
+
+    controller = mock "Controller"
+    controller.should_receive(:kind_of?).with(Class).and_return(true)
+    controller.should_receive(:name).and_return("DummyController")
+
+    @instance.should be_current(controller)
   end
 
   it "should have a link accessor" do

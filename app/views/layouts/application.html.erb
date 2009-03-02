@@ -55,7 +55,7 @@
       :theme_advanced_buttons2 => [],
       :theme_advanced_buttons3 => [],
       :plugins => %w{contextmenu paste fullscreen}
-    %>
+  %>
   </head>
 
 
@@ -80,13 +80,19 @@
       <!-- MAIN MENU: Top horizontal menu of the site.  Use class="here" to turn the current page tab on -->
       <div id="mainMenu">
         <ul class="floatLeft">
-          <li><a href="index.html" title="Introduction" class="here">Intro</a></li>
-          <li><a href="help.html" title="Learn how to use the template">Help</a></li>
-          <li><a href="tags.html" title="View the styled tags">Tags</a></li>
-          <li><a href="print.html" title="View the print layout">Print</a></li>
+          <% Navigations::Repository.get(:main).pages.each do |page| -%>
+            <% if page.visible? controller -%>
+              <%
+              link_class = ""
+              if page.current? controller
+                link_class = 'class="here"'
+              end
+              -%>
+              <li><a href="<%= page.link(controller) %>" <%= link_class %>><%= page.name %></a></li>
+            <% end -%>
+          <% end -%>
         </ul>
       </div>
-
 
 
 
@@ -150,11 +156,12 @@
         </span>
 
         <span class="floatRight">
-          <a href="index.html" title="Introduction">intro</a> <span class="grey">|</span>
-          <a href="help.html" title="Learn how to use the template">help</a> <span class="grey">|</span>
-          <a href="tags.html" title="View the styled tags">tags</a> <span class="grey">|</span>
-          <a href="print.html" title="View the print layout">print</a> <span class="grey">|</span>
-          <a href="http://fullahead.org/contact.html" title="Get in touch">mail</a>
+          <% first = true -%>
+          <% Navigations::Repository.get(:main).pages.each do |page| -%>
+            <%= " <span class=\"grey\">|</span>" unless first -%>
+            <% first = false -%>
+            <a href="<%= page.link(controller) %>"><%= page.name %></a>
+          <% end -%>
         </span>
       </div>
 
