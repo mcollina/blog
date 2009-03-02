@@ -10,6 +10,12 @@ class ApplicationController < ActionController::Base
 
   after_filter :destroy_thread_locals
 
+  hide_action :navigator
+
+  def navigator
+    @navigator ||= Navigations::Navigator.new
+  end
+
   private
   def destroy_thread_locals
     ThreadLocals.destroy

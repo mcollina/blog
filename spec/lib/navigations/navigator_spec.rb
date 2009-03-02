@@ -128,4 +128,27 @@ describe Navigator do
     pages[1].should == page1
     pages[2].should == page2
   end
+
+  it { @instance.should respond_to(:empty?) }
+
+  it "should be empty if there are no pages" do
+    @instance.should be_empty
+  end
+
+  it "shouldn't be empty if there is a page" do
+    @instance.page do |p|
+      p.name = "First"
+      p.controller = DummyController
+    end
+
+    @instance.should_not be_empty
+  end
+
+  it "shouldn't be empty if there is a page factory" do
+    factory = mock "factory"
+    factory.should_receive(:respond_to?).with(:expand).and_return(true)
+    @instance.page_factory(factory)
+
+    @instance.should_not be_empty
+  end
 end

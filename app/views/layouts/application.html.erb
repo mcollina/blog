@@ -100,28 +100,45 @@
       <div id="page">
 
         <!-- 25 percent width column, aligned to the right -->
-    <!-- Disabling the sideMenu until it can work!
-    <div class="width25 floatRight rightColumn">
+        <div class="width25 floatRight rightColumn">
 
-      <h1>Intro</h1>
+          <h1>Menu</h1>
 
-      <ul class="sideMenu">
-        <li class="here">
-          Dynamic Template
-          <ul>
-            <li><a href="#fluidity" title="Jump to section">Book of Fluidity</a></li>
-            <li><a href="#coding" title="Jump to section">Coding</a></li>
-          </ul>
-        </li>
-        <li><a href="http://fullahead.org" title="Goto Fullahead">Fullahead</a></li>
-        <li><a href="http://threetree.net" title="Goto Threetree">ThreeTree</a></li>
-      </ul>
-    </div>
-    -->
+          <% unless controller.navigator.empty? %>
+            <ul class="sideMenu">
+              <% controller.navigator.pages.each do |page| -%>
+                <% if page.visible? controller -%>
+                  <% if page.current? controller -%>
+                    <li class="here">
+                      <%= page.name %>
+                      <!-- subpages handling!
+                                  <ul>
+                                    <li><a href="#fluidity" title="Jump to section">Book of Fluidity</a></li>
+                                    <li><a href="#coding" title="Jump to section">Coding</a></li>
+                                  </ul>
+                                  -->
+                    </li>
+                  <% else -%>
+                    <li><a href="<%= page.link(controller) %>"><%= page.name %></a></li>
+                  <% end -%>
+                <% end -%>
+              <% end -%>
+            </ul>
+          <% end -%>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+            in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum.
+          </p>
+        </div>
 
-    <!-- 75 percent width column, aligned to the right -->
+        <!-- 75 percent width column, aligned to the right -->
     <!-- Making this column 100% until the sideMenu is ready -->
-        <div class="width100 floatRight">
+        <div class="width75 floatRight">
           <% if flash[:notice] -%>
             <div class="width25 gradient" id="flash">
               <%= flash[:notice] %>

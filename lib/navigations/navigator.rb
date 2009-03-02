@@ -52,6 +52,10 @@ module Navigations
 
       pages.flatten!
     end
+
+    def empty?
+      @pages.empty?
+    end
   end
 end
 

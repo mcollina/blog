@@ -2,6 +2,16 @@ class ArticlesController < ApplicationController
   
   uses_tiny_mce :only => [:new, :edit]
 
+  def initialize()
+    super
+    navigator.page do |page|
+      page.name = "New Article"
+      page.check_path = true
+      page.controller = ArticlesController
+      page.link_to_eval = "new_article_path"
+    end
+  end
+
   # GET /articles
   # GET /articles.xml
   def index
