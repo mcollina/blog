@@ -9,8 +9,14 @@ module Navigations
 
     attr_writer :link, :check_path
 
+    attr_accessor :link_options
+
     def initialize
       @check_path = false
+      @link_options = Hash.new
+      @current_block = nil
+      @name = nil
+      @translatable_name = nil
     end
 
     def name=(name)
@@ -47,6 +53,8 @@ module Navigations
     end
 
     def current?(current_controller)
+      return @current_block.call(current_controller) unless @current_block.nil?
+
       controller_class = current_controller
       controller_class = controller_class.class unless controller_class.kind_of? Class
       same_controller = controller_class.name == controller.name #this work even in development mode
@@ -82,6 +90,10 @@ module Navigations
 
     def check_path?
       @check_path
+    end
+
+    def current_block(&block)
+      @current_block = block
     end
 
     private

@@ -10,6 +10,28 @@ class ArticlesController < ApplicationController
       page.controller = ArticlesController
       page.link_to_eval = "new_article_path"
     end
+
+    navigator.page do |page|
+      page.name = "Edit Article"
+      page.link_to_eval = "edit_article_path(@article)"
+      page.controller = ArticlesController
+      page.check_path = true
+      page.visible_block do |controller|
+        controller.instance_variable_get(:@article)
+      end
+    end
+
+    navigator.page do |page|
+      page.name = "Destroy Article"
+      page.link_to_eval = "article_path(@article)"
+      page.controller = ArticlesController
+      page.check_path = true
+      page.visible_block do |controller|
+        controller.instance_variable_get(:@article)
+      end
+      page.link_options = { :confirm => 'Are you sure?', :method => :delete }
+      page.current_block { |c| false }
+    end
   end
 
   # GET /articles

@@ -150,6 +150,41 @@ describe StaticPage do
     @instance.current?(controller).should be_true
     @instance.current?(controller).should be_false
   end
+
+  it { @instance.should respond_to(:link_options) }
+
+  it { @instance.should respond_to(:link_options=) }
+
+  it "should have no link options as defaults" do
+    @instance.link_options.should == {}
+  end
+
+  it "should store additional link options" do
+    @instance.link_options[:hello] = "world"
+    @instance.link_options[:hello].should == "world"
+
+    options = mock "Options"
+    @instance.link_options = options
+    @instance.link_options.should == options
+  end
+
+  it { @instance.should respond_to(:current_block) }
+
+  it "should allow to specify a block that will be called to check " +
+    "if this page is current" do
+
+    obj = mock "Object"
+
+    dummy = mock "Dummy"
+    dummy.should_receive(:current?).with(obj).twice.and_return(true,false)
+
+    @instance.current_block do |o|
+      dummy.current? o
+    end
+
+    @instance.should be_current(obj)
+    @instance.should_not be_current(obj)
+  end
 end
 
 describe StaticPage, " (initalized)" do

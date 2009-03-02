@@ -83,12 +83,10 @@
           <% Navigations::Repository.get(:main).pages.each do |page| -%>
             <% if page.visible? controller -%>
               <%
-              link_class = ""
-              if page.current? controller
-                link_class = 'class="here"'
-              end
+              options = page.link_options
+              options = options.merge(:class => "here") if page.current? controller
               -%>
-              <li><a href="<%= page.link(controller) %>" <%= link_class %>><%= page.name %></a></li>
+              <li><%= link_to page.name, page.link(controller), options %></li>
             <% end -%>
           <% end -%>
         </ul>
@@ -119,7 +117,7 @@
                                   -->
                     </li>
                   <% else -%>
-                    <li><a href="<%= page.link(controller) %>"><%= page.name %></a></li>
+                    <li><%= link_to page.name, page.link(controller), page.link_options %></li>
                   <% end -%>
                 <% end -%>
               <% end -%>

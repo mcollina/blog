@@ -1,6 +1,6 @@
 <div class="gradient">
   <h1>
-    <%=h article.title %>
+    <%= link_to h(article.title), article_path(article) %>
   </h1>
   <p>
     <b>Created at <%=h article.created_at %> by user</b>
@@ -18,9 +18,4 @@
   <%
   end
 %>
-
-  <p>
-    <%= link_to 'Edit', edit_article_path(article) %> |
-    <%= link_to 'Back', articles_path %>
-  </p>
 </div>
