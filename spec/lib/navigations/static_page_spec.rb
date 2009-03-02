@@ -126,6 +126,30 @@ describe StaticPage do
     @instance.should be_visible(obj)
     @instance.should_not be_visible(obj)
   end
+
+  it { @instance.should respond_to(:check_path?) }
+
+  it { @instance.should respond_to(:check_path=) }
+
+  it "shouldn't check the path as default" do
+    @instance.check_path?.should be_false
+  end
+
+  it "should check the path if it's specified to do so" do    
+    @instance.check_path = true
+    @instance.check_path?.should be_true
+
+    @instance.controller = DummyController
+    @instance.link = "/a/path"
+
+    controller = DummyController.new
+    request = mock "Request"
+    controller.should_receive(:request).twice.and_return(request)
+    request.should_receive(:path).and_return("/a/path", "/another/path")
+
+    @instance.current?(controller).should be_true
+    @instance.current?(controller).should be_false
+  end
 end
 
 describe StaticPage, " (initalized)" do

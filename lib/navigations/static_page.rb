@@ -7,7 +7,11 @@ module Navigations
     alias :t_name :translatable_name
     alias :t_name= :translatable_name=
 
-    attr_writer :link
+    attr_writer :link, :check_path
+
+    def initialize
+      @check_path = false
+    end
 
     def name=(name)
       unless name.respond_to?(:to_str)
@@ -43,8 +47,15 @@ module Navigations
     end
 
     def current?(current_controller)
-      current_controller = current_controller.class unless current_controller.kind_of? Class
-      return current_controller.name == controller.name #this work even in development mode
+      controller_class = current_controller
+      controller_class = controller_class.class unless controller_class.kind_of? Class
+      same_controller = controller_class.name == controller.name #this work even in development mode
+
+      if check_path?
+        return link(current_controller) == current_controller.request.path
+      else
+        return same_controller
+      end
     end
 
     def link(controller)
@@ -67,6 +78,10 @@ module Navigations
 
     def visible_block(&block)
       @visible_block = block
+    end
+
+    def check_path?
+      @check_path
     end
 
     private

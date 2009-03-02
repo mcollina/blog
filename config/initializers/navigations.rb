@@ -5,5 +5,6 @@ Navigations::Repository.get(:main) do |nav|
     page.name = "Blog"
     page.link_to_eval = "articles_path"
     page.controller = ArticlesController
+    page.check_path = true
   end
 end
