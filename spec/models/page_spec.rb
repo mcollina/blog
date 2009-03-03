@@ -39,4 +39,12 @@ describe Page do
       Page.create!(@valid_attributes)
     }.should raise_error(ActiveRecord::RecordInvalid)
   end
+
+  it "should have a position" do
+    page = Page.new(@valid_attributes)
+    lambda {
+      page.position = 5
+      page.position.should == 5
+    }.should_not raise_error
+  end
 end

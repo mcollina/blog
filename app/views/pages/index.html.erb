@@ -1,20 +1,14 @@
 <h1>Listing pages</h1>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Content</th>
-  </tr>
+<ul id="pages_list" style="cursor: move">
+  <% @pages.each do |page| -%>
+    <li id="item_<%= page.id %>">
+      <%=h page.title %>
+    </li>
+  <% end %>
+</ul>
 
-<% for page in @pages %>
-  <tr>
-    <td><%=h page.title %></td>
-    <td><%=h page.content %></td>
-    <td><%= link_to 'Show', page %></td>
-    <td><%= link_to 'Edit', edit_page_path(page) %></td>
-    <td><%= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
+<%= sortable_element "pages_list",
+  :url => {:action => "sort", :id => @pages},
+  :complete => visual_effect(:highlight, "pages_list")
+%>

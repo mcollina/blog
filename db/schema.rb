@@ -14,14 +14,15 @@ ActiveRecord::Schema.define(:version => 20090303141206) do
   create_table "articles", :force => true do |t|
     t.string   "title"
     t.text     "content"
-    t.datetime "updated_at"
     t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "pages", :force => true do |t|
     t.string   "title"
     t.text     "content"
     t.datetime "updated_at"
+    t.integer  "position"
   end
 
 end
