@@ -1,9 +1,12 @@
-<h1>Listing pages</h1>
+<h1>Sort pages</h1>
 
-<ul id="pages_list" style="cursor: move">
+<ul id="pages_list" class="drag">
   <% @pages.each do |page| -%>
     <li id="item_<%= page.id %>">
-      <%=h page.title %>
+      <span class="floatRight">
+      <%= link_to "Show", page_path(page) %>
+      </span>
+      <%= h(page.title) %>
     </li>
   <% end %>
 </ul>

@@ -339,6 +339,10 @@ ul.sideMenu {
   display: block;
 }
 
+.inline {
+  display: inline;
+}
+
 .small {
   font-size: 0.8em;
 }
@@ -366,4 +370,21 @@ ul.sideMenu {
 .gradient {
   margin-top: 2em;
   background: #FFF url(../images/bg/gradient.png) repeat-x top left; 
+}
+
+
+/**************************************************************
+   AJAX classes
+ **************************************************************/
+
+#pages_list {
+  cursor: move;
+}
+
+#pages_list li {
+  border-color: #470052;
+  border-width: 2px;
+  border-style: solid;
+  margin: 10px;
+  padding: 10px;
 }
