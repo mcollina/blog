@@ -2,6 +2,11 @@ class ArticlesController < ApplicationController
   
   uses_tiny_mce :only => [:new, :edit]
 
+  def self.check_article(controller)
+    page = controller.instance_variable_get(:@article)
+    not page.nil? and not page.new_record?
+  end
+
   navigator.page do |page|
     page.name = "New Article"
     page.check_path = true
@@ -14,9 +19,7 @@ class ArticlesController < ApplicationController
     page.link_to_eval = "edit_article_path(@article)"
     page.controller = ArticlesController
     page.check_path = true
-    page.visible_block do |controller|
-      controller.instance_variable_get(:@article)
-    end
+    page.visible_block { |controller| check_article(controller) }
   end
 
   navigator.page do |page|
@@ -24,9 +27,7 @@ class ArticlesController < ApplicationController
     page.link_to_eval = "article_path(@article)"
     page.controller = ArticlesController
     page.check_path = true
-    page.visible_block do |controller|
-      controller.instance_variable_get(:@article)
-    end
+    page.visible_block { |controller| check_article(controller) }
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
     page.current_block { |c| false }
   end
