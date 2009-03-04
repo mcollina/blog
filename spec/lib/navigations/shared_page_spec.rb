@@ -11,12 +11,6 @@ describe "a navigable page", :shared => true do
 
   it { @instance.should respond_to(:visible?) }
 
-  it "should have a link method that accept a controller (object)" do
-    lambda {
-      @instance.link(self).should_not be_nil
-    }.should_not raise_error
-  end
-
   it "should be visible or not" do
     visible = @instance.visible?(Object.new)
 

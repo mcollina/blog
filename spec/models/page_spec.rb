@@ -1,5 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+require File.dirname(__FILE__) + '/../lib/navigations/shared_page_spec'
+
 describe Page do
   before(:each) do
     @valid_attributes = {
@@ -46,5 +48,55 @@ describe Page do
       page.position = 5
       page.position.should == 5
     }.should_not raise_error
+  end
+
+  it "should alias the title as name" do
+    page = Page.new(@valid_attributes)
+    page.should respond_to(:name)
+    page.name.should == @valid_attributes[:title]
+  end
+end
+
+describe Page, " (initialized)" do
+  
+  it_should_behave_like "a navigable page"
+
+  before(:each) do
+    @instance = Page.create!(
+      :title => "value for title",
+      :content => "value for content"
+    )
+  end
+
+  it "should alwasy be visible" do
+    @instance.should be_visible(mock "controller")
+  end
+
+  it "should correctly build its link" do
+    controller = mock "Controller"
+    controller.should_receive(:send).with(:page_path,@instance).and_return("/path/to/page")
+    @instance.link(controller).should == "/path/to/page"
+  end
+
+  it "should be current if the controller has this object as its page" do
+    controller = mock "PagesController"
+    controller.should_receive(:respond_to?).with(:page).and_return(true)
+    controller.should_receive(:page).and_return(Page.find(@instance.id))
+    @instance.should be_current(controller)
+  end
+
+  it "shouldn't be current if the controller has no page" do
+    controller = mock "PagesController"
+    controller.should_receive(:respond_to?).with(:page).and_return(false)
+    @instance.should_not be_current(controller)
+  end
+
+   it "shouldn't be current if the controller has another page as its page" do
+    controller = mock "PagesController"
+    controller.should_receive(:respond_to?).with(:page).and_return(true)
+    page = mock "AnotherPage"
+    page.should_receive(:==).with(@instance).and_return(false)
+    controller.should_receive(:page).and_return(page)
+    @instance.should_not be_current(controller)
   end
 end
