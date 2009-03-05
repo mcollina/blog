@@ -35,7 +35,7 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.xml
   def index
-    @pages = Page.find(:all, :order => "position")
+    @pages = Page.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -117,7 +117,7 @@ class PagesController < ApplicationController
   end
 
   def sort
-    @pages = Page.find(:all, :order => "position")
+    @pages = Page.find(:all)
     @pages.each do |page|
       page.position = params['pages_list'].index(page.id.to_s) + 1
       page.save
@@ -125,4 +125,9 @@ class PagesController < ApplicationController
     render :nothing => true
   end
 
+  hide_action(:page)
+
+  def page
+    @page
+  end
 end

@@ -7,4 +7,8 @@ Navigations::Repository.get(:main) do |nav|
     page.controller = ArticlesController
     page.check_path = true
   end
+
+  nav.page_factory do
+    Page.find(:all)
+  end
 end

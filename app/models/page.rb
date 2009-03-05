@@ -2,8 +2,10 @@ class Page < ActiveRecord::Base
   validates_presence_of :title, :content
   validates_uniqueness_of :title
 
-  acts_as_list
+  #acts_as_list
 
+  default_scope :order => 'position'
+  
   def visible?(controller)
     true
   end
@@ -19,5 +21,9 @@ class Page < ActiveRecord::Base
 
   def name
     title
+  end
+
+  def link_options
+    Hash.new
   end
 end

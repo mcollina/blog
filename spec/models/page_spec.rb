@@ -91,7 +91,7 @@ describe Page, " (initialized)" do
     @instance.should_not be_current(controller)
   end
 
-   it "shouldn't be current if the controller has another page as its page" do
+  it "shouldn't be current if the controller has another page as its page" do
     controller = mock "PagesController"
     controller.should_receive(:respond_to?).with(:page).and_return(true)
     page = mock "AnotherPage"
@@ -99,4 +99,31 @@ describe Page, " (initialized)" do
     controller.should_receive(:page).and_return(page)
     @instance.should_not be_current(controller)
   end
+end
+
+describe Page, " class methods" do
+  before(:each) do
+    @first = Page.create!(
+      :title => "first page title",
+      :content => "first page content",
+      :position => 2
+    )
+
+    @second = Page.create!(
+      :title => "second page title",
+      :content => "second page content",
+      :position => 1
+    )
+
+    @third = Page.create!(
+      :title => "third page title",
+      :content => "third page content",
+      :position => 3
+    )
+  end
+
+  it "should return the pages in order by position" do
+    Page.find(:all).should == [@second,@first,@third]
+  end
+
 end

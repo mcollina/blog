@@ -24,5 +24,10 @@ describe "a navigable page", :shared => true do
   it "shouldn't be current with a random object" do
     @instance.should_not be_current(Object.new)
   end
+
+  it "should have a link_options method that returns an hash" do
+    @instance.should respond_to(:link_options)
+    @instance.link_options.should be_kind_of(Hash)
+  end
 end
 
