@@ -6,11 +6,11 @@ describe "/pages/index.html.erb" do
   before(:each) do
     assigns[:pages] = [
       stub_model(Page,
-        :title => "value for title",
+        :title => "first value for title",
         :content => "value for content"
       ),
       stub_model(Page,
-        :title => "value for title",
+        :title => "second value for title",
         :content => "value for content"
       )
     ]
@@ -18,8 +18,10 @@ describe "/pages/index.html.erb" do
 
   it "should render list of pages" do
     render "/pages/index.html.erb"
-    response.should have_tag("tr>td", "value for title".to_s, 2)
-    response.should have_tag("tr>td", "value for content".to_s, 2)
+    response.should have_tag("ul") do
+      with_tag("li",/.*first value for title/)
+      with_tag("li",/.*second value for title/)
+    end
   end
 end
 
