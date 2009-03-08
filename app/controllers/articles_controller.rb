@@ -9,24 +9,18 @@ class ArticlesController < ApplicationController
 
   navigator.page do |page|
     page.name = "New Article"
-    page.check_path = true
-    page.controller = ArticlesController
     page.link_to_eval = "new_article_path"
   end
 
   navigator.page do |page|
     page.name = "Edit Article"
     page.link_to_eval = "edit_article_path(@article)"
-    page.controller = ArticlesController
-    page.check_path = true
     page.visible_block { |controller| check_article(controller) }
   end
 
   navigator.page do |page|
     page.name = "Destroy Article"
     page.link_to_eval = "article_path(@article)"
-    page.controller = ArticlesController
-    page.check_path = true
     page.visible_block { |controller| check_article(controller) }
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
     page.current_block { |c| false }

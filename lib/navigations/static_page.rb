@@ -7,16 +7,17 @@ module Navigations
     alias :t_name :translatable_name
     alias :t_name= :translatable_name=
 
-    attr_writer :link, :check_path
+    attr_writer :link
 
     attr_accessor :link_options
 
     def initialize
-      @check_path = false
       @link_options = Hash.new
       @current_block = nil
       @name = nil
       @translatable_name = nil
+      @link = nil
+      @link_to_eval = nil
     end
 
     def name=(name)
@@ -57,12 +58,11 @@ module Navigations
 
       controller_class = current_controller
       controller_class = controller_class.class unless controller_class.kind_of? Class
-      same_controller = controller_class.name == controller.name #this work even in development mode
 
       if check_path?
         return link(current_controller) == current_controller.request.path
       else
-        return same_controller
+        return controller_class.name == controller.name #this work even in development mode
       end
     end
 
@@ -89,7 +89,11 @@ module Navigations
     end
 
     def check_path?
-      @check_path
+      if (not (@link.nil? and @link_to_eval.nil?)) and controller.nil?
+        true
+      else
+        false
+      end
     end
 
     def current_block(&block)

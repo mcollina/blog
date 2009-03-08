@@ -9,24 +9,18 @@ class PagesController < ApplicationController
 
   navigator.page do |page|
     page.name = "New Page"
-    page.check_path = true
-    page.controller = PagesController
     page.link_to_eval = "new_page_path"
   end
 
   navigator.page do |page|
     page.name = "Edit Page"
     page.link_to_eval = "edit_page_path(@page)"
-    page.controller = PagesController
-    page.check_path = true
     page.visible_block {|controller| check_page(controller) }
   end
 
   navigator.page do |page|
     page.name = "Destroy Page"
     page.link_to_eval = "page_path(@page)"
-    page.controller = PagesController
-    page.check_path = true
     page.visible_block { |controller| check_page(controller) }
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
     page.current_block { |c| false }

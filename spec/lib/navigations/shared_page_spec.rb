@@ -22,7 +22,11 @@ describe "a navigable page", :shared => true do
   end
 
   it "shouldn't be current with a random object" do
-    @instance.should_not be_current(Object.new)
+    controller = mock "Controller"
+    request = mock "Request"
+    controller.should_receive(:request).any_number_of_times.and_return(request)
+    request.should_receive(:path).any_number_of_times.and_return("/a/strange/path")
+    @instance.should_not be_current(controller)
   end
 
   it "should have a link_options method that returns an hash" do

@@ -43,7 +43,6 @@ describe StaticPage do
   it "should have an current? method" do
     @instance.controller = "DummyController"
 
-    @instance.should be_current(DummyController)
     @instance.should be_current(DummyController.new)
     @instance.should_not be_current(ApplicationController.new)
 
@@ -129,26 +128,43 @@ describe StaticPage do
 
   it { @instance.should respond_to(:check_path?) }
 
-  it { @instance.should respond_to(:check_path=) }
-
   it "shouldn't check the path as default" do
     @instance.check_path?.should be_false
   end
 
-  it "should check the path if it's specified to do so" do    
-    @instance.check_path = true
+  it "should check the path if there isn't a controller but a link" do
+
+    @instance.link = "/a/path"
     @instance.check_path?.should be_true
 
-    @instance.controller = DummyController
-    @instance.link = "/a/path"
-
-    controller = DummyController.new
+    controller = mock "Controller"
     request = mock "Request"
     controller.should_receive(:request).twice.and_return(request)
     request.should_receive(:path).and_return("/a/path", "/another/path")
 
     @instance.current?(controller).should be_true
     @instance.current?(controller).should be_false
+  end
+
+  it "should check the path if there isn't a controller but a link to eval" do
+
+    @instance.link_to_eval = "a_method"
+
+    @instance.check_path?.should be_true
+
+    controller = mock "Controller"
+    request = mock "Request"
+    controller.should_receive(:a_method).twice.and_return("/a/path")
+    controller.should_receive(:request).twice.and_return(request)
+    request.should_receive(:path).and_return("/a/path", "/another/path")
+
+    @instance.current?(controller).should be_true
+    @instance.current?(controller).should be_false
+  end
+
+  it "shouldn't check the path if there is a Controller" do
+    @instance.controller = DummyController
+    @instance.check_path?.should be_false
   end
 
   it { @instance.should respond_to(:link_options) }
@@ -195,6 +211,5 @@ describe StaticPage, " (initalized)" do
     @instance = StaticPage.new
     @instance.name = "Hello World"
     @instance.link = "a link"
-    @instance.controller = DummyController
   end
 end
