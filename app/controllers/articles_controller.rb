@@ -15,7 +15,17 @@ class ArticlesController < ApplicationController
   navigator.page do |page|
     page.name = "Edit Article"
     page.link_to_eval = "edit_article_path(@article)"
-    page.visible_block { |controller| check_article(controller) }
+    page.visible_block do |controller|
+      check_article(controller) and not page.current? controller
+    end
+  end
+
+  navigator.page do |page|
+    page.name = "Show Article"
+    page.link_to_eval = "article_path(@article)"
+    page.visible_block do |controller|
+      check_article(controller) and not page.current? controller
+    end
   end
 
   navigator.page do |page|

@@ -8,14 +8,29 @@ class PagesController < ApplicationController
   end
 
   navigator.page do |page|
+    page.name = "All Pages"
+    page.link_to_eval = "pages_path()"
+  end
+
+  navigator.page do |page|
     page.name = "New Page"
     page.link_to_eval = "new_page_path"
   end
 
   navigator.page do |page|
+    page.name = "Show Page"
+    page.link_to_eval = "page_path(@page)"
+    page.visible_block do |controller|
+      check_page(controller) and not page.current? controller
+    end
+  end
+
+  navigator.page do |page|
     page.name = "Edit Page"
     page.link_to_eval = "edit_page_path(@page)"
-    page.visible_block {|controller| check_page(controller) }
+    page.visible_block do |controller|
+      check_page(controller) and not page.current? controller
+    end
   end
 
   navigator.page do |page|
