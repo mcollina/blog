@@ -5,6 +5,15 @@ describe PagesController do
   def mock_page(stubs={})
     @mock_page ||= mock_model(Page, stubs)
   end
+
+  it "should have a page attribute reader" do
+    controller.should respond_to(:page)
+    controller.page.should be_nil
+  end
+
+  it "should hide the page attribute reader" do
+    controller.class.hidden_actions.should be_include("page")
+  end
   
   describe "responding to GET index" do
 
@@ -170,4 +179,54 @@ describe PagesController do
 
   end
 
+  describe "responding to POST sort" do
+
+    describe "with valid params" do
+
+      it "should updates all the positions" do
+        pages = []
+
+        new_positions = [4,1,3,2]
+
+        (1..4).each do |i|
+          page = mock "Page #{i}"
+          page.should_receive(:id).any_number_of_times.and_return(i)
+          page.should_receive(:position).any_number_of_times.and_return(i)
+
+          if i != new_positions.index(i) + 1
+            page.should_receive(:position=).with(new_positions.index(i) + 1)
+            page.should_receive(:save).once
+          end
+
+          pages << page
+        end
+        Page.stub!(:find).with(:all).and_return(pages)
+        controller.should_receive(:render).with(:nothing => true)
+
+        post :sort, :pages_list => new_positions.map { |i| i.to_s }
+      end
+
+    end
+
+    describe "with invalid params" do
+
+      it "should redirect to the pages list" do
+        pages = []
+
+        (1..4).each do |i|
+          page = mock "Page #{i}"
+          page.should_receive(:id).any_number_of_times.and_return(i)
+          page.should_receive(:position).any_number_of_times.and_return(i)
+          pages << page
+        end
+        Page.stub!(:find).with(:all).and_return(pages)
+
+        post :sort, :pages_list => []
+        response.should redirect_to(pages_url)
+      end
+
+    end
+
+  end
+  
 end

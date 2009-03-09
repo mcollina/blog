@@ -112,11 +112,20 @@ class PagesController < ApplicationController
 
   def sort
     @pages = Page.find(:all)
-    @pages.each do |page|
-      page.position = params['pages_list'].index(page.id.to_s) + 1
-      page.save
+
+    begin
+      @pages.each do |page|
+        new_position = params[:pages_list].index(page.id.to_s) + 1
+
+        if new_position != page.position
+          page.position = new_position
+          page.save
+        end
+      end
+      render :nothing => true
+    rescue
+      redirect_to pages_path
     end
-    render :nothing => true
   end
 
   hide_action(:page)
