@@ -1,0 +1,12 @@
+<% unless message.nil? -%>
+  <div class="width25 gradient" id="flash">
+    <%= message %>
+  </div>
+
+  <%= update_page_tag do |page|
+    page.delay(3) do
+      page.visual_effect :toggle_appear, "flash", :duration => 2
+      page.delay(3) { page.remove "flash" }
+    end
+  end %>
+<% end -%>

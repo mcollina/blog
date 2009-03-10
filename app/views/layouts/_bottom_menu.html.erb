@@ -1,0 +1,10 @@
+<span class="floatRight">
+  <% first = true -%>
+  <% Navigations::Repository.get(:main).pages.each do |page| -%>
+    <% if page.visible? controller -%>
+      <%= " <span class=\"grey\">|</span>" unless first -%>
+      <% first = false -%>
+      <%= link_to page.name, page.link(controller), page.link_options %>
+    <% end -%>
+  <% end -%>
+</span>

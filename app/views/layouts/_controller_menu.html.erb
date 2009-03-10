@@ -1,0 +1,22 @@
+<% unless controller.navigator.empty? %>
+  <ul class="sideMenu">
+    <% controller.navigator.pages.each do |page| -%>
+      <% if page.visible? controller -%>
+        <% if page.current? controller -%>
+          <li class="here">
+            <%= page.name %>
+          </li>
+        <% else -%>
+          <li><%= link_to page.name, page.link(controller), page.link_options %></li>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+  </ul>
+<% end -%>
+
+<!-- subpages handling!
+<ul>
+<li><a href="#fluidity" title="Jump to section">Book of Fluidity</a></li>
+<li><a href="#coding" title="Jump to section">Coding</a></li>
+</ul>
+-->
