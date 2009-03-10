@@ -201,6 +201,23 @@ describe StaticPage do
     @instance.should be_current(obj)
     @instance.should_not be_current(obj)
   end
+
+  it { @instance.should respond_to(:link_block) }
+
+  it "should allow to specify a block that will be called to build the link" do
+
+    obj = mock "Object"
+
+    dummy = mock "Dummy"
+    dummy.should_receive(:build_link).with(obj).twice.and_return("a","b")
+
+    @instance.link_block do |o|
+      dummy.build_link o
+    end
+
+    @instance.link(obj).should == "a"
+    @instance.link(obj).should == "b"
+  end
 end
 
 describe StaticPage, " (initalized)" do

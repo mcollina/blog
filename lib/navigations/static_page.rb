@@ -18,6 +18,7 @@ module Navigations
       @translatable_name = nil
       @link = nil
       @link_to_eval = nil
+      @link_block
     end
 
     def name=(name)
@@ -69,6 +70,8 @@ module Navigations
     def link(controller)
       if not @link.nil?
         @link
+      elsif not @link_block.nil? and not controller.nil?
+        @link_block.call(controller)
       elsif not link_to_eval.nil? and not controller.nil?
         eval(link_to_eval, controller.send(:binding))
       else
@@ -98,6 +101,10 @@ module Navigations
 
     def current_block(&block)
       @current_block = block
+    end
+
+    def link_block(&block)
+      @link_block = block
     end
 
     private
