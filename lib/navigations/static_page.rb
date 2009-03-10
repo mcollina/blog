@@ -18,7 +18,8 @@ module Navigations
       @translatable_name = nil
       @link = nil
       @link_to_eval = nil
-      @link_block
+      @link_block = nil
+      @subpages = []
     end
 
     def name=(name)
@@ -105,6 +106,20 @@ module Navigations
 
     def link_block(&block)
       @link_block = block
+    end
+
+    def subpages
+      @subpages
+    end
+
+    def has_subpages?
+      not @subpages.empty?
+    end
+
+    def subpage
+      page = StaticPage.new
+      yield page
+      @subpages << page
     end
 
     private

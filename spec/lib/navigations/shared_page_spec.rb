@@ -33,5 +33,12 @@ describe "a navigable page", :shared => true do
     @instance.should respond_to(:link_options)
     @instance.link_options.should be_kind_of(Hash)
   end
+
+  it "should have a subpages method that returns an array" do
+    @instance.should respond_to(:subpages)
+    @instance.subpages.should be_kind_of(Array)
+  end
+
+  it { @instance.should respond_to(:has_subpages?) }
 end
 

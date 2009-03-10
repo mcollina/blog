@@ -23,6 +23,14 @@ class Page < ActiveRecord::Base
     title
   end
 
+  def has_subpages?
+    false
+  end
+
+  def subpages
+    []
+  end
+
   def link_options
     Hash.new
   end

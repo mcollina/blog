@@ -205,7 +205,6 @@ describe StaticPage do
   it { @instance.should respond_to(:link_block) }
 
   it "should allow to specify a block that will be called to build the link" do
-
     obj = mock "Object"
 
     dummy = mock "Dummy"
@@ -217,6 +216,15 @@ describe StaticPage do
 
     @instance.link(obj).should == "a"
     @instance.link(obj).should == "b"
+  end
+
+  it { @instance.should respond_to(:subpage) }
+
+  it "should allow to specify a subpage through the subpage method" do
+    @instance.subpage do |page|
+      page.should be_kind_of(StaticPage)
+    end
+    @instance.subpages.should_not be_empty
   end
 end
 
