@@ -40,7 +40,12 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.xml
   def index
-    @articles = Article.find(:all)
+    params[:search] ||= {}
+    params[:search][:order_as] ||= "DESC"
+    params[:search][:order_by] ||= "created_at"
+    params[:search][:per_page] = 3
+    @search = Article.new_search(params[:search])
+    @articles = @search.all
 
     respond_to do |format|
       format.html # index.html.erb
