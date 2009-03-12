@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
     params[:search] ||= {}
     params[:search][:order_as] ||= "DESC"
     params[:search][:order_by] ||= "created_at"
-    params[:search][:per_page] = 3
+    params[:search][:per_page] = 5
     @search = Article.new_search(params[:search])
     @articles = @search.all
 
