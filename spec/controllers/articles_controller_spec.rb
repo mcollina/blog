@@ -17,20 +17,20 @@ describe ArticlesController do
       assigns[:articles].should == [mock_article]
     end
 
-    describe "with mime type of xml" do
-  
-      it "should render all articles as xml" do
-        request.env["HTTP_ACCEPT"] = "application/xml"
-        search = mock "Search"
-        search.should_receive(:all).and_return(articles = mock("Array of Articles"))
-        Article.should_receive(:new_search).with({"order_as"=>"DESC",
-            "per_page"=>5, "order_by"=>"created_at"}).and_return(search)
-        articles.should_receive(:to_xml).and_return("generated XML")
-        get :index
-        response.body.should == "generated XML"
-      end
-    
-    end
+#    describe "with mime type of xml" do
+#
+#      it "should render all articles as xml" do
+#        request.env["HTTP_ACCEPT"] = "application/xml"
+#        search = mock "Search"
+#        search.should_receive(:all).and_return(articles = mock("Array of Articles"))
+#        Article.should_receive(:new_search).with({"order_as"=>"DESC",
+#            "per_page"=>5, "order_by"=>"created_at"}).and_return(search)
+#        articles.should_receive(:to_xml).and_return("generated XML")
+#        get :index
+#        response.body.should == "generated XML"
+#      end
+#
+#    end
 
   end
 

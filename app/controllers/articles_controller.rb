@@ -38,7 +38,7 @@ class ArticlesController < ApplicationController
 
 
   # GET /articles
-  # GET /articles.xml
+  # disabled GET /articles.xml
   def index
     params[:search] ||= {}
     params[:search][:order_as] ||= "DESC"
@@ -49,7 +49,8 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @articles }
+      #TODO find a way to handle xml easily
+      #format.xml  { render :xml => @articles }
     end
   end
 
