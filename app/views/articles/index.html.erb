@@ -1,8 +1,8 @@
 <%= render :partial => "article", :collection => @articles, :as => :article %>
 
 <% if @search.next_page <= @search.last_page -%>
-<%= page_link @search.next_page, :text => "Previous Articles", :html => {:class => "floatRight"} %>
+<%= link_to "Previous Articles", articles_path(:page => @search.next_page), :class => "floatRight" %>
 <% end -%>
 <% if @search.prev_page >= @search.first_page -%>
-<%= page_link @search.prev_page, :text => "Following Articles", :html => {:class => "floatLeft"} %>
+<%= link_to "Following Articles", articles_path(:page => @search.prev_page), :class => "floatLeft" %>
 <% end -%>

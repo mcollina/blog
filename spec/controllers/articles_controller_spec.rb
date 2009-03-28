@@ -8,29 +8,38 @@ describe ArticlesController do
   
   describe "responding to GET index" do
 
-    it "should expose all articles as @articles" do
+    it "should expose the top five articles as @articles" do
       search = mock "Search"
       search.should_receive(:all).and_return([mock_article])
-      Article.should_receive(:new_search).with({"order_as"=>"DESC",
-          "per_page"=>5, "order_by"=>"created_at"}).and_return(search)
+      Article.should_receive(:new_search).with({:order_as=>"DESC",
+          :per_page=>5, :order_by=>"created_at"}).and_return(search)
       get :index
       assigns[:articles].should == [mock_article]
     end
 
-#    describe "with mime type of xml" do
-#
-#      it "should render all articles as xml" do
-#        request.env["HTTP_ACCEPT"] = "application/xml"
-#        search = mock "Search"
-#        search.should_receive(:all).and_return(articles = mock("Array of Articles"))
-#        Article.should_receive(:new_search).with({"order_as"=>"DESC",
-#            "per_page"=>5, "order_by"=>"created_at"}).and_return(search)
-#        articles.should_receive(:to_xml).and_return("generated XML")
-#        get :index
-#        response.body.should == "generated XML"
-#      end
-#
-#    end
+    it "should be able to navigate the articles list" do
+      search = mock "Search"
+      search.should_receive(:all).and_return([mock_article])
+      Article.should_receive(:new_search).with({:order_as=>"DESC",
+          :per_page=>5, :order_by=>"created_at", :page => "2"}).and_return(search)
+      get :index, :page => 2
+      assigns[:articles].should == [mock_article]
+    end
+
+    describe "with mime type of xml" do
+
+      it "should render all articles as xml" do
+        request.env["HTTP_ACCEPT"] = "application/xml"
+        search = mock "Search"
+        search.should_receive(:all).and_return(articles = mock("Array of Articles"))
+        Article.should_receive(:new_search).with({:order_as=>"DESC",
+            :per_page=>5, :order_by=>"created_at"}).and_return(search)
+        articles.should_receive(:to_xml).and_return("generated XML")
+        get :index
+        response.body.should == "generated XML"
+      end
+
+    end
 
   end
 

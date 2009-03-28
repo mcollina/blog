@@ -40,17 +40,14 @@ class ArticlesController < ApplicationController
   # GET /articles
   # disabled GET /articles.xml
   def index
-    params[:search] ||= {}
-    params[:search][:order_as] ||= "DESC"
-    params[:search][:order_by] ||= "created_at"
-    params[:search][:per_page] = 5
-    @search = Article.new_search(params[:search])
+    search = { :order_as => "DESC", :order_by => "created_at", :per_page => 5 }
+    search[:page] = params[:page] if params.has_key? :page
+    @search = Article.new_search(search)
     @articles = @search.all
 
     respond_to do |format|
       format.html # index.html.erb
-      #TODO find a way to handle xml easily
-      #format.xml  { render :xml => @articles }
+      format.xml  { render :xml => @articles }
     end
   end
 
