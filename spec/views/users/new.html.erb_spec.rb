@@ -7,8 +7,7 @@ describe "/users/new.html.erb" do
     assigns[:user] = stub_model(User,
       :new_record? => true,
       :login => "value for login",
-      :email => "value for email",
-      :password => "value for password"
+      :email => "value for email"
     )
   end
 
@@ -18,7 +17,6 @@ describe "/users/new.html.erb" do
     response.should have_tag("form[action=?][method=post]", users_path) do
       with_tag("input#user_login[name=?]", "user[login]")
       with_tag("input#user_email[name=?]", "user[email]")
-      with_tag("input#user_password[name=?]", "user[password]")
     end
   end
 end
