@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe UserSessionsController do
+describe SessionsController do
 
   #Delete these examples and add some real ones
   it "should use UserSessionsController" do
-    controller.should be_an_instance_of(UserSessionsController)
+    controller.should be_an_instance_of(SessionsController)
   end
 
 

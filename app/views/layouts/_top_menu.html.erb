@@ -1,6 +1,5 @@
 
-<!-- MAIN MENU: Top horizontal menu of the site.  Use class="here" to turn the current page tab on -->
-<div id="mainMenu">
+
   <ul class="floatLeft">
     <% Navigations::Repository.get(:main).pages.each do |page| -%>
       <% if page.visible? controller -%>
@@ -12,4 +11,3 @@
       <% end -%>
     <% end -%>
   </ul>
-</div>

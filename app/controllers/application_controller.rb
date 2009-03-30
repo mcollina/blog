@@ -12,12 +12,6 @@ class ApplicationController < ActionController::Base
 
   include Navigations::Navigable
 
-  private
-
-  # --- thread locals ---
-  def destroy_thread_locals
-    ThreadLocals.destroy
-  end
 
   # --- sessions ---
   def current_user_session
@@ -28,6 +22,13 @@ class ApplicationController < ActionController::Base
   def current_user
     return @current_user if defined?(@current_user)
     @current_user = current_user_session && current_user_session.user
+  end
+
+  private
+
+  # --- thread locals ---
+  def destroy_thread_locals
+    ThreadLocals.destroy
   end
 
   # --- restrict actions ---
