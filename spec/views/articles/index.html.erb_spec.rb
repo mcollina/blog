@@ -3,17 +3,22 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe "/articles/index.html.erb" do
   include ArticlesHelper
 
-  def mock_search(current_page, last_page=current_page)
-    search = mock "Search"
+  def mock_search(search, current_page, last_page=current_page)
 
-    first_page = 0
-    next_page = current_page + 1
-    prev_page = current_page - 1
+    if(current_page != last_page)
+      next_page = current_page + 1
+    else
+      next_page = nil
+    end
 
-    search.should_receive(:last_page).at_least(1).and_return(last_page)
+    if(current_page != 0)
+      prev_page = current_page - 1
+    else
+      prev_page = nil
+    end
+
     search.should_receive(:next_page).at_least(1).and_return(next_page)
-    search.should_receive(:prev_page).at_least(1).and_return(prev_page)
-    search.should_receive(:first_page).at_least(1).and_return(first_page)
+    search.should_receive(:previous_page).at_least(1).and_return(prev_page)
 
     search
   end
@@ -33,7 +38,7 @@ describe "/articles/index.html.erb" do
 
   it "should render list of articles if there are no more pages" do
     #we're on the first page and there are no more pages
-    assigns[:search] = mock_search(0)
+    assigns[:search] = mock_search(assigns[:articles], 0)
 
     render "/articles/index.html.erb"
     response.should have_tag("div>h1", "value for title".to_s, 2)
@@ -43,7 +48,7 @@ describe "/articles/index.html.erb" do
   end
 
   it "should display the 'Previous Articles' link if there are more pages after this one" do
-    assigns[:search] = mock_search(0,1)
+    assigns[:search] = mock_search(assigns[:articles], 0, 1)
 
     render "/articles/index.html.erb"
     response.should have_tag("div>h1", "value for title".to_s, 2)
@@ -53,7 +58,7 @@ describe "/articles/index.html.erb" do
   end
 
   it "should display the 'Previous Articles' link if there are more pages before this one" do
-    assigns[:search] = mock_search(1,1)
+    assigns[:search] = mock_search(assigns[:articles], 1, 1)
 
     render "/articles/index.html.erb"
     response.should have_tag("div>h1", "value for title".to_s, 2)
