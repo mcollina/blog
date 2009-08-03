@@ -9,4 +9,8 @@ describe "/sessions/new" do
   it "should have an autentication form" do
     response.should have_tag('form')
   end
+
+  it "should assign the correct title" do
+    assigns[:title].should == "Login"
+  end
 end
