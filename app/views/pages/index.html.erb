@@ -1,6 +1,20 @@
-<h1>Sort pages</h1>
+<h1>Pages Administration</h1>
 
-<ul id="pages_list" class="drag">
+This Pages allows to:
+<ul>
+  <li>
+    drag the boxes to reorder them;
+  </li>
+  <li>
+    create new pages;
+  </li>
+  <li>
+    remove existing pages.
+  </li>
+</ul>
+
+Use this boxes to reorder the pages:
+<ul id="pages_list">
   <% @pages.each do |page| -%>
     <li id="item_<%= page.id %>">
       <span class="floatRight">

@@ -378,7 +378,11 @@ ul.sideMenu {
  **************************************************************/
 
 #pages_list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
   cursor: move;
+  list-style-image: none;
 }
 
 #pages_list li {

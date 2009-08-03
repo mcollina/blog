@@ -12,7 +12,7 @@ Navigations::Repository.get(:main) do |nav|
 
   nav.page do |page|
     # TODO this navigation should be made visible only if an admin is logged in.
-    page.name = "New Page"
-    page.link_to_eval = "new_page_path"
+    page.name = "All Pages"
+    page.link_to_eval = "pages_path"
   end
 end
