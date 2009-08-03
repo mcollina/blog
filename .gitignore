@@ -3,4 +3,4 @@ tmp/**/*
 doc/api
 doc/app
 nbproject/
-db/*.sqlite
+db/*.sqlite3
