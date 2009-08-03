@@ -1,0 +1,11 @@
+## The default users that will be created during the first migration.
+## There can be more than once.
+- login: admin
+  password: adminadmin
+  password_confirmation: adminadmin
+  email: admin@admin.com
+
+- login: anotheruser
+  password: anotheruser
+  password_confirmation: anotheruser
+  email: anotheruser@admin.com

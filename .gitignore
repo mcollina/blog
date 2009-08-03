@@ -4,3 +4,4 @@ doc/api
 doc/app
 nbproject/
 db/*.sqlite3
+db/schema.rb
