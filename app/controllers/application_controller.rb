@@ -8,8 +8,6 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
 
-  after_filter :destroy_thread_locals
-
   include Navigations::Navigable
 
 
@@ -25,11 +23,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-  # --- thread locals ---
-  def destroy_thread_locals
-    ThreadLocals.destroy
-  end
 
   # --- restrict actions ---
   def require_user
