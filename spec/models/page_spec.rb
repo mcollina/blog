@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-require File.dirname(__FILE__) + '/../lib/navigations/shared_page_spec'
+require File.dirname(__FILE__) + '/shared_page_spec'
 
 describe Page do
   before(:each) do
