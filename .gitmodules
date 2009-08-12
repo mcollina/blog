@@ -1,0 +1,3 @@
+[submodule "vendor/plugins/navigations"]
+	path = vendor/plugins/navigations
+	url = git://github.com/mcollina/navigations.git
