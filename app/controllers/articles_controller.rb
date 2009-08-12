@@ -2,6 +2,8 @@ class ArticlesController < ApplicationController
   
   uses_tiny_mce :only => [:new, :edit]
 
+  before_filter :require_user, :except => [:index, :show]
+
   def self.check_article(controller)
     page = controller.instance_variable_get(:@article)
     not page.nil? and not page.new_record?
@@ -35,7 +37,6 @@ class ArticlesController < ApplicationController
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
     page.current_block { |c| false }
   end
-
 
   # GET /articles
   # disabled GET /articles.xml

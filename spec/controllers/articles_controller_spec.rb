@@ -63,8 +63,12 @@ describe ArticlesController do
     
   end
 
-  describe "responding to GET new" do
+  describe "responding to GET new with user" do
   
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
+
     it "should expose a new article as @article" do
       Article.should_receive(:new).and_return(mock_article)
       get :new
@@ -73,7 +77,20 @@ describe ArticlesController do
 
   end
 
-  describe "responding to GET edit" do
+  describe "responding to GET new without user" do
+
+    it "should redirect to new_session_url" do
+      get :new
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to GET edit with user" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
   
     it "should expose the requested article as @article" do
       Article.should_receive(:find).with("37").and_return(mock_article)
@@ -83,7 +100,20 @@ describe ArticlesController do
 
   end
 
-  describe "responding to POST create" do
+  describe "responding to GET edit without user" do
+
+    it "should redirect to new_session_url" do
+      get :edit
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to POST create with user" do
+    
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
 
     describe "with valid params" do
       
@@ -119,7 +149,20 @@ describe ArticlesController do
     
   end
 
-  describe "responding to PUT udpate" do
+  describe "responding to POST create without user" do
+
+    it "should redirect to new_session_url" do
+      post :create
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to PUT udpate with user" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
 
     describe "with valid params" do
 
@@ -167,7 +210,20 @@ describe ArticlesController do
 
   end
 
-  describe "responding to DELETE destroy" do
+  describe "responding to PUT update without user" do
+
+    it "should redirect to new_session_url" do
+      put :update
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to DELETE destroy with user" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
 
     it "should destroy the requested article" do
       Article.should_receive(:find).with("37").and_return(mock_article)
@@ -179,6 +235,15 @@ describe ArticlesController do
       Article.stub!(:find).and_return(mock_article(:destroy => true))
       delete :destroy, :id => "1"
       response.should redirect_to(articles_url)
+    end
+
+  end
+
+  describe "responding to DELETE destroy without user" do
+
+    it "should redirect to new_session_url" do
+      put :update
+      response.should redirect_to(new_session_url)
     end
 
   end
