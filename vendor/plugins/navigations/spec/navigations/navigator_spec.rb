@@ -14,6 +14,8 @@ describe Navigator do
     page.should_receive(:name).any_number_of_times.and_return(name)
     page.should_receive(:controller).any_number_of_times.and_return(DummyController)
     page.should_receive(:respond_to?).any_number_of_times.with(:expand).and_return(false)
+    page.should_receive(:respond_to?).any_number_of_times.with(:to_ary).and_return(false)
+    page
   end
 
   before(:each) do
@@ -150,5 +152,23 @@ describe Navigator do
     @instance.page_factory(factory)
 
     @instance.should_not be_empty
+  end
+
+  it { @instance.should be_duplicable }
+
+  it "should have a working dup" do
+    @instance.should be_duplicable
+    @instance.page(mock_page("First"))
+    other = @instance.dup
+
+    @instance.pages.should == other.pages
+    @instance.name.should == other.name
+  end
+
+  it "should do a deep clone on dup" do
+    other = @instance.dup
+    @instance.page(mock_page("First"))
+
+    @instance.pages.should_not == other.pages
   end
 end

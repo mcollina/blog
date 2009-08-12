@@ -1,15 +1,16 @@
 require 'rubygems'
 require 'spec'
+require 'activesupport'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-unless Kernel.const_defined?(:ApplicationController)
+unless Object.const_defined?(:ApplicationController)
   class ApplicationController
   end
 end
 
-unless Kernel.const_defined?(:I18n)
-  class I18n
+unless Object.const_defined?(:I18n)
+  module I18n
   end
 end

@@ -56,6 +56,12 @@ module Navigations
     def empty?
       @pages.empty?
     end
+
+    def dup
+      duplicate = super
+      duplicate.instance_variable_set(:@pages, @pages.dup);
+      duplicate
+    end
   end
 end
 
