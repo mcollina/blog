@@ -12,13 +12,14 @@ class ArticlesController < ApplicationController
   navigator.page do |page|
     page.name = "New Article"
     page.link_to_eval = "new_article_path"
+    page.visible_block { |c| c.current_user }
   end
 
   navigator.page do |page|
     page.name = "Edit Article"
     page.link_to_eval = "edit_article_path(@article)"
     page.visible_block do |controller|
-      check_article(controller) and not page.current? controller
+      controller.current_user and check_article(controller) and not page.current? controller
     end
   end
 
@@ -33,7 +34,9 @@ class ArticlesController < ApplicationController
   navigator.page do |page|
     page.name = "Destroy Article"
     page.link_to_eval = "article_path(@article)"
-    page.visible_block { |controller| check_article(controller) }
+    page.visible_block do |controller|
+      controller.current_user and check_article(controller)
+    end
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
     page.current_block { |c| false }
   end
