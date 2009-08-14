@@ -242,7 +242,7 @@ describe ArticlesController do
   describe "responding to DELETE destroy without user" do
 
     it "should redirect to new_session_url" do
-      put :update
+      delete :destroy
       response.should redirect_to(new_session_url)
     end
 
