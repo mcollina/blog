@@ -15,7 +15,11 @@ describe PagesController do
     controller.class.hidden_actions.should be_include("page")
   end
   
-  describe "responding to GET index" do
+  describe "responding to GET index with user logged in" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
 
     it "should expose all pages as @pages" do
       Page.should_receive(:find).with(:all).and_return([mock_page])
@@ -59,8 +63,21 @@ describe PagesController do
     
   end
 
-  describe "responding to GET new" do
+  describe "responding to GET index without user logged in" do
+
+    it "should redirect to new_session_url" do
+      get :index
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to GET new with user logged in" do
   
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
+
     it "should expose a new page as @page" do
       Page.should_receive(:new).and_return(mock_page)
       get :new
@@ -69,8 +86,21 @@ describe PagesController do
 
   end
 
-  describe "responding to GET edit" do
-  
+  describe "responding to GET new without user logged in" do
+
+    it "should redirect to new_session_url" do
+      get :new
+      response.should redirect_to(new_session_url)
+    end
+    
+  end
+
+  describe "responding to GET edit with user logged in" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
+
     it "should expose the requested page as @page" do
       Page.should_receive(:find).with("37").and_return(mock_page)
       get :edit, :id => "37"
@@ -79,9 +109,22 @@ describe PagesController do
 
   end
 
-  describe "responding to POST create" do
+  describe "responding to GET edit without user logged in" do
 
-    describe "with valid params" do
+    it "should redirect to new_session_url" do
+      get :edit
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to POST create with user logged in" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
+
+    describe "and with valid params" do
       
       it "should expose a newly created page as @page" do
         Page.should_receive(:new).with({'these' => 'params'}).and_return(mock_page(:save => true))
@@ -97,7 +140,7 @@ describe PagesController do
       
     end
     
-    describe "with invalid params" do
+    describe "and with invalid params" do
 
       it "should expose a newly created but unsaved page as @page" do
         Page.stub!(:new).with({'these' => 'params'}).and_return(mock_page(:save => false))
@@ -115,9 +158,22 @@ describe PagesController do
     
   end
 
-  describe "responding to PUT udpate" do
+  describe "responding to POST create without user logged in" do
 
-    describe "with valid params" do
+    it "should redirect to new_session_url" do
+      post :create, :page => {}
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to PUT udpate with user logged in" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
+
+    describe "and with valid params" do
 
       it "should update the requested page" do
         Page.should_receive(:find).with("37").and_return(mock_page)
@@ -139,7 +195,7 @@ describe PagesController do
 
     end
     
-    describe "with invalid params" do
+    describe "and with invalid params" do
 
       it "should update the requested page" do
         Page.should_receive(:find).with("37").and_return(mock_page)
@@ -163,7 +219,20 @@ describe PagesController do
 
   end
 
-  describe "responding to DELETE destroy" do
+  describe "responding to PUT update without user logged in" do
+
+    it "should redirect to new_session_url" do
+      put :update, :id => "42"
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to DELETE destroy with user logged in" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
 
     it "should destroy the requested page" do
       Page.should_receive(:find).with("37").and_return(mock_page)
@@ -179,7 +248,20 @@ describe PagesController do
 
   end
 
-  describe "responding to POST sort" do
+  describe "responding to DELETE destroy without user logged in" do
+
+    it "should redirect to new_session_url" do
+      delete :destroy
+      response.should redirect_to(new_session_url)
+    end
+
+  end
+
+  describe "responding to POST sort with user logged in" do
+
+    before(:each) do
+      controller.instance_variable_set(:@current_user, mock("User"))
+    end
 
     describe "with valid params" do
 
@@ -225,6 +307,15 @@ describe PagesController do
         response.should redirect_to(pages_url)
       end
 
+    end
+
+  end
+
+  describe "responding to POST sort without user logged in" do
+
+    it "should redirect to new_session_url" do
+      post :sort
+      response.should redirect_to(new_session_url)
     end
 
   end

@@ -2,6 +2,8 @@ class PagesController < ApplicationController
   
   uses_tiny_mce :only => [:new, :edit]
 
+  before_filter :require_user, :except => :show
+
   def self.check_page(controller)
     page = controller.instance_variable_get(:@page)
     not page.nil? and not page.new_record?
