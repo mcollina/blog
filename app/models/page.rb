@@ -15,7 +15,7 @@ class Page < ActiveRecord::Base
     controller.page == self
   end
 
-  def link(controller)
+  def build_link(controller)
     controller.send(:page_path,self)
   end
 

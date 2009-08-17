@@ -7,7 +7,7 @@
         options = page.link_options
         options = options.merge(:class => "here") if page.current? controller
         -%>
-        <li><%= link_to page.name, page.link(controller), options %></li>
+        <li><%= link_to page.name, page.build_link(controller), options %></li>
       <% end -%>
     <% end -%>
   </ul>

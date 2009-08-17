@@ -6,7 +6,7 @@ def mock_page(hash)
     page.should_receive(:name).and_return(hash[:name]) if hash.has_key? :name
     page.should_receive(:current?).at_most(1).and_return(hash[:current]) if hash.has_key? :current
     if hash.has_key? :link
-      page.should_receive(:link).and_return(hash[:link])
+      page.should_receive(:build_link).and_return(hash[:link])
       link_options = hash[:link_options]
       link_options ||= {}
       page.should_receive(:link_options).and_return(link_options)

@@ -75,7 +75,7 @@ describe Page, " (initialized)" do
   it "should correctly build its link" do
     controller = mock "Controller"
     controller.should_receive(:send).with(:page_path,@instance).and_return("/path/to/page")
-    @instance.link(controller).should == "/path/to/page"
+    @instance.build_link(controller).should == "/path/to/page"
   end
 
   it "should be current if the controller has this object as its page" do
