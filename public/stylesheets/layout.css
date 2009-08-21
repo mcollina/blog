@@ -26,6 +26,7 @@ body {
   text-align: center;
 }
 
+
 /**************************************************************
    #content: Sets the width of the site.  Make changes here
              to convert to a fixed width site.
@@ -35,7 +36,7 @@ body {
   height: 100%;
   min-height: 100%;
 
-  text-align: left;
+  text-align: justify;
 }
 
 #content,
@@ -51,8 +52,6 @@ body {
   width: 94%;
   height: auto;
 }
-
-
 
 
 /**************************************************************
@@ -98,7 +97,6 @@ body {
   color: #00F0EC;
 }
 
-
 /* Sets where the header images will go */
 #header img.left {
   position: absolute;
@@ -123,7 +121,6 @@ body {
   top: 70px;
   right: 400px;
 }
-
 
 
 /**************************************************************
@@ -168,9 +165,6 @@ body {
 #mainMenu li a.last {
   margin-right: 0;
 }
-
-
-
 
 /**************************************************************
    .sideMenu: The side bar menu
@@ -231,7 +225,6 @@ ul.sideMenu {
 }
 
 
-
 /**************************************************************
    #page: Holds the main page content.
  **************************************************************/
@@ -245,6 +238,27 @@ ul.sideMenu {
 }
 
 
+/**************************************************************
+   .article: Holds an article.
+ **************************************************************/
+
+.article {
+  text-align: justify;
+}
+
+.article h1 a {
+  text-decoration: none;
+}
+
+/**************************************************************
+   #flash: Holds the flash.
+ **************************************************************/
+
+#flash {
+    padding: 1em;
+    background-color: #470052;
+    color: #9FF3FF;
+}
 
 
 /**************************************************************
@@ -279,6 +293,7 @@ ul.sideMenu {
   background: none;
 }
 
+
 /**************************************************************
    Width classes used by the site columns
  **************************************************************/
@@ -304,7 +319,6 @@ ul.sideMenu {
 }
 
 
-
 /**************************************************************
    Alignment classes
  **************************************************************/
@@ -324,7 +338,6 @@ ul.sideMenu {
 .alignRight {
   text-align: right;
 }
-
 
 
 /**************************************************************
@@ -369,7 +382,7 @@ ul.sideMenu {
 
 .gradient {
   margin-top: 2em;
-  background: #FFF url(../images/bg/gradient.png) repeat-x top left; 
+  background: #FFF url(../images/bg/gradient.png) repeat-x top left;
 }
 
 
