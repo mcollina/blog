@@ -27,11 +27,13 @@ describe "/articles/index.html.erb" do
     assigns[:articles] = [
       stub_model(Article,
         :title => "value for title",
-        :content => "<p>value for content</p>"
+        :content => "<p>value for content</p>",
+        :user => stub_model(User, :login => "user")
       ),
       stub_model(Article,
         :title => "value for title",
-        :content => "<p>value for content</p>"
+        :content => "<p>value for content</p>",
+        :user => stub_model(User, :login => "user")
       )
     ]
   end
@@ -42,6 +44,7 @@ describe "/articles/index.html.erb" do
 
     render "/articles/index.html.erb"
     response.should have_tag("div>h1", "value for title".to_s, 2)
+    response.should have_tag("div>p", /user/, 2)
     response.should have_tag("div>p", "value for content".to_s, 2)
     response.should_not have_tag("a", "Previous Articles")
     response.should_not have_tag("a", "Following Articles")
@@ -52,6 +55,7 @@ describe "/articles/index.html.erb" do
 
     render "/articles/index.html.erb"
     response.should have_tag("div>h1", "value for title".to_s, 2)
+    response.should have_tag("div>p", /user/, 2)
     response.should have_tag("div>p", "value for content".to_s, 2)
     response.should have_tag("a.floatRight", "Previous Articles")
     response.should_not have_tag("a", "Following Articles")
@@ -62,6 +66,7 @@ describe "/articles/index.html.erb" do
 
     render "/articles/index.html.erb"
     response.should have_tag("div>h1", "value for title".to_s, 2)
+    response.should have_tag("div>p", /user/, 2)
     response.should have_tag("div>p", "value for content".to_s, 2)
     response.should_not have_tag("a", "Previous Articles")
     response.should have_tag("a.floatLeft", "Following Articles")

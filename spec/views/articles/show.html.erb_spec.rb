@@ -5,14 +5,20 @@ describe "/articles/show.html.erb" do
   before(:each) do
     assigns[:article] = @article = stub_model(Article,
       :title => "value for title",
-      :content => "value for content"
+      :content => "value for content",
+      :user => stub_model(User, :login => "loginName")
     )
   end
 
-  it "should render attributes in <p>" do
+  it "should render attributes" do
     render "/articles/show.html.erb"
     response.should have_text(/value\ for\ title/)
     response.should have_text(/value\ for\ content/)
+  end
+
+  it "should render the user login name" do
+    render "/articles/show.html.erb"
+    response.should have_text(/loginName/)
   end
 end
 

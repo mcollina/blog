@@ -2,20 +2,15 @@
   <h1>
     <%= link_to h(article.title), article_path(article) %>
   </h1>
-  <p>
-    <b>Created at <%=h article.created_at %> by user</b>
+  <p class="details">
+    Created at <%=h article.created_at %> by <%= article.user.login %>
   </p>
-  
+
   <%= article.content %>
 
-  <%
-  if article.created_at != article.updated_at
-  %>
-    <p>
-      <b>Last update on:</b>
-      <%=h article.updated_at %>
+  <% if article.created_at != article.updated_at -%>
+    <p class="details">
+      Last update on: <%=h article.updated_at %>
     </p>
-  <%
-  end
-%>
+  <% end -%>
 </div>

@@ -112,19 +112,25 @@ describe ArticlesController do
   describe "responding to POST create with user" do
     
     before(:each) do
-      controller.instance_variable_set(:@current_user, mock("User"))
+      @user = mock_model(User)
+      controller.instance_variable_set(:@current_user, @user)
     end
 
     describe "with valid params" do
       
+      before(:each) do
+        mock_article(:save => true)
+        mock_article.should_receive(:user=).with(@user)
+      end
+
       it "should expose a newly created article as @article" do
-        Article.should_receive(:new).with({'these' => 'params'}).and_return(mock_article(:save => true))
+        Article.should_receive(:new).with({'these' => 'params'}).and_return(mock_article)
         post :create, :article => {:these => 'params'}
         assigns(:article).should equal(mock_article)
       end
 
       it "should redirect to the created article" do
-        Article.stub!(:new).and_return(mock_article(:save => true))
+        Article.stub!(:new).and_return(mock_article)
         post :create, :article => {}
         response.should redirect_to(article_url(mock_article))
       end
@@ -132,15 +138,20 @@ describe ArticlesController do
     end
     
     describe "with invalid params" do
+      
+      before(:each) do
+        mock_article(:save => false)
+        mock_article.should_receive(:user=).with(@user)
+      end
 
       it "should expose a newly created but unsaved article as @article" do
-        Article.stub!(:new).with({'these' => 'params'}).and_return(mock_article(:save => false))
+        Article.stub!(:new).with({'these' => 'params'}).and_return(mock_article)
         post :create, :article => {:these => 'params'}
         assigns(:article).should equal(mock_article)
       end
 
       it "should re-render the 'new' template" do
-        Article.stub!(:new).and_return(mock_article(:save => false))
+        Article.stub!(:new).and_return(mock_article)
         post :create, :article => {}
         response.should render_template('new')
       end

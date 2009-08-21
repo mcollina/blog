@@ -250,6 +250,10 @@ ul.sideMenu {
   text-decoration: none;
 }
 
+.article .details {
+  font-weight: bold;
+}
+
 /**************************************************************
    #flash: Holds the flash.
  **************************************************************/
