@@ -37,7 +37,6 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.xml
   def index
-    # TODO this page should be accessibile only if an admin is logged in.
     @pages = Page.find(:all)
 
     respond_to do |format|

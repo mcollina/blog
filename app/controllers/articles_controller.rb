@@ -40,8 +40,6 @@ class ArticlesController < ApplicationController
   # GET /articles
   # disabled GET /articles.xml
   def index
-    #search = { :order_as => "DESC", :order_by => "created_at", :per_page => 5 }
-    #search[:page] = params[:page] if params.has_key? :page
     @articles = Article.descend_by_created_at.paginate(:page => params[:page], :per_page => 5)
 
     respond_to do |format|
