@@ -4,15 +4,7 @@ class PagesController < ApplicationController
 
   before_filter :require_user, :except => :show
 
-  def self.check_page(controller)
-    page = controller.instance_variable_get(:@page)
-    not page.nil? and not page.new_record?
-  end
-
-  navigator.page do |page|
-    page.name = "All Pages"
-    page.link_to_eval = "pages_path()"
-  end
+  check_model :page
 
   navigator.page do |page|
     page.name = "New Page"
@@ -23,7 +15,7 @@ class PagesController < ApplicationController
     page.name = "Show Page"
     page.link_to_eval = "page_path(@page)"
     page.visible_block do |controller|
-      check_page(controller) and not page.current? controller
+      controller.page? and not page.current? controller
     end
   end
 
@@ -31,16 +23,15 @@ class PagesController < ApplicationController
     page.name = "Edit Page"
     page.link_to_eval = "edit_page_path(@page)"
     page.visible_block do |controller|
-      check_page(controller) and not page.current? controller
+      controller.page? and not page.current? controller
     end
   end
 
   navigator.page do |page|
     page.name = "Destroy Page"
     page.link_to_eval = "page_path(@page)"
-    page.visible_block { |controller| check_page(controller) }
+    page.visible_method = :page?
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
-    page.current_block { |c| false }
   end
 
   # GET /pages

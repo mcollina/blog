@@ -4,22 +4,19 @@ class ArticlesController < ApplicationController
 
   before_filter :require_user, :except => [:index, :show]
 
-  def self.check_article(controller)
-    page = controller.instance_variable_get(:@article)
-    not page.nil? and not page.new_record?
-  end
+  check_model :article #genereates an article? method
 
   navigator.page do |page|
     page.name = "New Article"
     page.link_to_eval = "new_article_path"
-    page.visible_block { |c| c.current_user }
+    page.visible_method = :current_user
   end
 
   navigator.page do |page|
     page.name = "Edit Article"
     page.link_to_eval = "edit_article_path(@article)"
     page.visible_block do |controller|
-      controller.current_user and check_article(controller) and not page.current? controller
+      controller.current_user and controller.article?
     end
   end
 
@@ -27,7 +24,7 @@ class ArticlesController < ApplicationController
     page.name = "Show Article"
     page.link_to_eval = "article_path(@article)"
     page.visible_block do |controller|
-      check_article(controller) and not page.current? controller
+      controller.article? and not page.current? controller
     end
   end
 
@@ -35,10 +32,9 @@ class ArticlesController < ApplicationController
     page.name = "Destroy Article"
     page.link_to_eval = "article_path(@article)"
     page.visible_block do |controller|
-      controller.current_user and check_article(controller)
+      controller.current_user and controller.article?
     end
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
-    page.current_block { |c| false }
   end
 
   # GET /articles
