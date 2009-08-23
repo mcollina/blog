@@ -14,7 +14,7 @@ describe "/users/show.html.erb" do
     render
     response.should have_text(/value\ for\ login/)
     response.should have_text(/value\ for\ email/)
-    response.should have_text(/value\ for\ password/)
+    response.should_not have_text(/value\ for\ password/)
   end
 end
 

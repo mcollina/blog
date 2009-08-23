@@ -78,7 +78,7 @@
           <% unless current_user %>
             <%= link_to "Login", new_session_path %>
           <% else %>
-            <%= link_to "Logout", session_path, :method => :delete %>  (<%= current_user.login %>)
+            <%= link_to "Logout", session_path, :method => :delete %> (<%= link_to current_user.login, user_path(current_user) %>)
           <% end %>
         </p>
         <%= render :partial => "layouts/top_menu" %>

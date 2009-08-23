@@ -2,6 +2,33 @@ class UsersController < ApplicationController
   
   before_filter :require_user
 
+  check_model :user
+  
+  navigator.page do |page|
+    page.name = "All Users"
+    page.link_to_eval = "users_path"
+  end
+
+  navigator.page do |page|
+    page.name = "New User"
+    page.link_to_eval = "new_user_path"
+    page.visible_block { |c| not c.user? }
+  end
+
+  navigator.page do |page|
+    page.name = "Edit"
+    page.link_to_eval = "edit_user_path(@user)"
+    page.visible_method = :user?
+  end
+
+  navigator.page do |page|
+    page.name = "Destroy User"
+    page.link_to_eval = "user_path(@user)"
+    page.current = false
+    page.visible_method = :user?
+    page.link_options = { :confirm => 'Are you sure?', :method => :delete }
+  end
+
   # GET /users
   # GET /users.xml
   def index
