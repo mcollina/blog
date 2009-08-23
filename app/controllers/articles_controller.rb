@@ -35,6 +35,7 @@ class ArticlesController < ApplicationController
       controller.current_user and controller.article?
     end
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
+    page.current = false
   end
 
   # GET /articles
