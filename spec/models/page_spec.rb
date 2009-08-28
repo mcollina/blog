@@ -50,54 +50,72 @@ describe Page do
     }.should_not raise_error
   end
 
-  it "should alias the title as name" do
+  it "should respond to to_page" do
     page = Page.new(@valid_attributes)
-    page.should respond_to(:name)
-    page.name.should == @valid_attributes[:title]
-  end
-end
-
-describe Page, " (initialized)" do
-  
-  it_should_behave_like "a navigable page"
-
-  before(:each) do
-    @instance = Page.create!(
-      :title => "value for title",
-      :content => "value for content"
-    )
+    page.should respond_to(:to_page)
   end
 
-  it "should alwasy be visible" do
-    @instance.should be_visible(mock "controller")
-  end
+  describe "#to_page" do
 
-  it "should correctly build its link" do
-    controller = mock "Controller"
-    controller.should_receive(:send).with(:page_path,@instance).and_return("/path/to/page")
-    @instance.build_link(controller).should == "/path/to/page"
-  end
+    it_should_behave_like "a navigable page"
 
-  it "should be current if the controller has this object as its page" do
-    controller = mock "PagesController"
-    controller.should_receive(:respond_to?).with(:page).and_return(true)
-    controller.should_receive(:page).and_return(Page.find(@instance.id))
-    @instance.should be_current(controller)
-  end
+    before :each do
+      @active_record_page = Page.create!(@valid_attributes)
+      @instance = @active_record_page.to_page
+    end
 
-  it "shouldn't be current if the controller has no page" do
-    controller = mock "PagesController"
-    controller.should_receive(:respond_to?).with(:page).and_return(false)
-    @instance.should_not be_current(controller)
-  end
+    it "should create a non-activerecord page model" do
+      @instance.should_not be_kind_of(ActiveRecord::Base)
+    end
 
-  it "shouldn't be current if the controller has another page as its page" do
-    controller = mock "PagesController"
-    controller.should_receive(:respond_to?).with(:page).and_return(true)
-    page = mock "AnotherPage"
-    page.should_receive(:==).with(@instance).and_return(false)
-    controller.should_receive(:page).and_return(page)
-    @instance.should_not be_current(controller)
+    it "should be current if the controller has a page method and that page is the original page" do
+      controller = mock "Controller"
+      controller.should_receive(:respond_to?).with(:page).and_return(true)
+      controller.should_receive(:page).at_least(1).and_return(@active_record_page)
+
+      @instance.should be_current(controller)
+    end
+
+    it "should not be current if the controller has a page method and that page is nil" do
+      controller = mock "Controller"
+      controller.should_receive(:respond_to?).with(:page).and_return(true)
+      controller.should_receive(:page).at_least(1).and_return(nil)
+
+      @instance.should_not be_current(controller)
+    end
+
+    it "should not be current if the controller hasn't got a page method" do
+      controller = mock "Controller"
+      controller.should_receive(:respond_to?).with(:page).and_return(false)
+
+      @instance.should_not be_current(controller)
+    end
+
+    it "should not be current if the controller's page isn't the navigation page" do
+      controller = mock "Controller"
+      controller.should_receive(:respond_to?).with(:page).and_return(true)
+
+      page = mock "Page"
+      page.should_receive(:id).and_return(@active_record_page.id + 1)
+      controller.should_receive(:page).at_least(1).and_return(page)
+
+      @instance.should_not be_current(controller)
+    end
+
+    it "should alwasy be visible" do
+      @instance.should be_visible(mock "controller")
+    end
+
+
+    it "should correctly build its link" do
+      controller = mock "Controller"
+      controller.should_receive(:send).with(:page_path,@active_record_page.id).and_return("/path/to/page")
+      @instance.build_link(controller).should == "/path/to/page"
+    end
+
+    it "should alias the title as name" do
+      @instance.name.should == @valid_attributes[:title]
+    end
   end
 end
 

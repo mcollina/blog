@@ -6,32 +6,44 @@ class Page < ActiveRecord::Base
 
   default_scope :order => 'position'
   
-  def visible?(controller)
-    true
+  def to_page
+    NavigablePage.new(self)
   end
 
-  def current?(controller)
-    return false unless controller.respond_to? :page
-    controller.page == self
-  end
+  private
+  class NavigablePage
 
-  def build_link(controller)
-    controller.send(:page_path,self)
-  end
+    attr_reader :id
+    attr_reader :name
 
-  def name
-    title
-  end
+    def initialize(page)
+      @id = page.id
+      @name = page.title
+    end
 
-  def has_subpages?
-    false
-  end
+    def visible?(controller)
+      true
+    end
 
-  def subpages
-    []
-  end
+    def current?(controller)
+      return false if not controller.respond_to? :page or controller.page.nil?
+      controller.page.id == id
+    end
 
-  def link_options
-    Hash.new
+    def build_link(controller)
+      controller.send(:page_path,id)
+    end
+
+    def has_subpages?
+      false
+    end
+
+    def subpages
+      []
+    end
+
+    def link_options
+      Hash.new
+    end
   end
 end

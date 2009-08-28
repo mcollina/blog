@@ -7,7 +7,7 @@ Navigations::Repository.get(:main) do |nav|
   end
 
   nav.page_factory do
-    Page.find(:all)
+    Page.find(:all).map { |p| p.to_page }
   end
 
   nav.page do |page|
@@ -15,4 +15,6 @@ Navigations::Repository.get(:main) do |nav|
     page.name = "All Pages"
     page.link_to_eval = "pages_path"
   end
+
+  nav.cacheable = true
 end

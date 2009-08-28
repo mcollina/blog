@@ -32,6 +32,7 @@ class PagesController < ApplicationController
     page.link_to_eval = "page_path(@page)"
     page.visible_method = :page?
     page.link_options = { :confirm => 'Are you sure?', :method => :delete }
+    page.current = false
   end
 
   # GET /pages
